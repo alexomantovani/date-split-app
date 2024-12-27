@@ -16,4 +16,9 @@ class User implements Equatable {
 
   @override
   bool? get stringify => false;
+
+  @override
+  String toString() {
+    return 'User{uid: $uid, email: $email, displayName: $displayName}';
+  }
 }
