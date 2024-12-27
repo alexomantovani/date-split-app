@@ -3,12 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
+import 'package:dartz/dartz.dart' as _i2;
+import 'package:date_split_app/core/errors/failure.dart' as _i5;
 import 'package:date_split_app/features/auth/domain/repositories/auth_repository.dart'
-    as _i2;
+    as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -24,55 +25,75 @@ import 'package:mockito/src/dummies.dart' as _i4;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
+  _FakeEither_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [AuthRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthRepository extends _i1.Mock implements _i2.AuthRepository {
+class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
   MockAuthRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<String> signUp(
+  _i4.Future<_i2.Either<_i5.Failure, String>> signUp(
     String? email,
     String? password,
     String? displayName,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#signUp, [email, password, displayName]),
-            returnValue: _i3.Future<String>.value(
-              _i4.dummyValue<String>(
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+              _FakeEither_0<_i5.Failure, String>(
                 this,
                 Invocation.method(#signUp, [email, password, displayName]),
               ),
             ),
           )
-          as _i3.Future<String>);
+          as _i4.Future<_i2.Either<_i5.Failure, String>>);
 
   @override
-  _i3.Future<void> signIn(String? email, String? password) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> signIn(
+    String? email,
+    String? password,
+  ) =>
       (super.noSuchMethod(
             Invocation.method(#signIn, [email, password]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+              _FakeEither_0<_i5.Failure, void>(
+                this,
+                Invocation.method(#signIn, [email, password]),
+              ),
+            ),
           )
-          as _i3.Future<void>);
+          as _i4.Future<_i2.Either<_i5.Failure, void>>);
 
   @override
-  _i3.Future<void> resetPassword(String? email) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> resetPassword(String? email) =>
       (super.noSuchMethod(
             Invocation.method(#resetPassword, [email]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+              _FakeEither_0<_i5.Failure, void>(
+                this,
+                Invocation.method(#resetPassword, [email]),
+              ),
+            ),
           )
-          as _i3.Future<void>);
+          as _i4.Future<_i2.Either<_i5.Failure, void>>);
 
   @override
-  _i3.Future<void> deleteAccount(String? uid) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> deleteAccount(String? uid) =>
       (super.noSuchMethod(
             Invocation.method(#deleteAccount, [uid]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+              _FakeEither_0<_i5.Failure, void>(
+                this,
+                Invocation.method(#deleteAccount, [uid]),
+              ),
+            ),
           )
-          as _i3.Future<void>);
+          as _i4.Future<_i2.Either<_i5.Failure, void>>);
 }
