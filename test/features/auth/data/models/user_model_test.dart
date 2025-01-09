@@ -12,7 +12,7 @@ void main() {
   group('UserModel', () {
     test('should convert from User entity correctly', () {
       // Arrange
-      var userEntity = User(
+      const userEntity = User(
         uid: 'testUid123',
         email: 'test@example.com',
         displayName: 'Test User',
