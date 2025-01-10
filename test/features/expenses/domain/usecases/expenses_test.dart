@@ -17,7 +17,7 @@ void main() {
     id: '1',
     name: 'Test Expense',
     value: 100.0,
-    date: DateTime.now(), // ou uma data fixa para consistência nos testes
+    date: DateTime.now(),
     paidBy: 'User1',
     sharedWith: const ['User2', 'User3'],
   );
