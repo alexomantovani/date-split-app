@@ -13,6 +13,8 @@ class ExpensesBloc extends Bloc<ExpensesEvent, ExpensesState> {
     on<CreateExpenseEvent>(_onCreateExpense);
     on<GetExpenseByIdEvent>(_onGetExpenseById);
     on<GetAllExpensesEvent>(_onGetAllExpenses);
+    on<UpdateExpenseEvent>(_onUpdateExpense);
+    on<DeleteExpenseEvent>(_onDeleteExpense);
   }
 
   Future<void> _onCreateExpense(
@@ -42,6 +44,27 @@ class ExpensesBloc extends Bloc<ExpensesEvent, ExpensesState> {
     result.fold(
       (failure) => emit(ExpensesError(failure.message)),
       (expenses) => emit(ExpensesListLoadedSuccess(expenses)),
+    );
+  }
+
+  Future<void> _onUpdateExpense(
+      UpdateExpenseEvent event, Emitter<ExpensesState> emit) async {
+    emit(ExpensesLoading());
+    final result =
+        await expensesRepository.updateExpense(event.id, event.expense);
+    result.fold(
+      (failure) => emit(ExpensesError(failure.message)),
+      (_) => emit(ExpenseUpdatedSuccess()),
+    );
+  }
+
+  Future<void> _onDeleteExpense(
+      DeleteExpenseEvent event, Emitter<ExpensesState> emit) async {
+    emit(ExpensesLoading());
+    final result = await expensesRepository.deleteExpense(event.id);
+    result.fold(
+      (failure) => emit(ExpensesError(failure.message)),
+      (_) => emit(ExpenseDeletedSuccess()),
     );
   }
 }
