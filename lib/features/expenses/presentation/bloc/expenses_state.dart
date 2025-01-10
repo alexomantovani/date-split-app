@@ -22,6 +22,10 @@ class ExpensesError extends ExpensesState {
 
 class ExpenseCreatedSuccess extends ExpensesState {}
 
+class ExpenseUpdatedSuccess extends ExpensesState {}
+
+class ExpenseDeletedSuccess extends ExpensesState {}
+
 class ExpenseLoadedSuccess extends ExpensesState {
   final Expense expense;
 

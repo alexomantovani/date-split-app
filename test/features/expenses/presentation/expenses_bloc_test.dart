@@ -36,6 +36,14 @@ void main() {
     sharedWith: const ['user456', 'user789'],
   );
   final testExpensesList = [testExpense];
+  final testUpdatedExpense = Expense(
+    id: testExpenseId,
+    name: 'Updated Expense',
+    value: 150.0,
+    date: DateTime(2023, 12, 30),
+    paidBy: testUserId,
+    sharedWith: const ['user456', 'user789'],
+  );
 
   group('CreateExpenseEvent', () {
     blocTest<ExpensesBloc, ExpensesState>(
@@ -156,6 +164,96 @@ void main() {
       ],
       verify: (_) {
         verify(mockExpensesRepository.getAllExpenses(testUserId)).called(1);
+      },
+    );
+  });
+
+  group('UpdateExpenseEvent', () {
+    blocTest<ExpensesBloc, ExpensesState>(
+      'should emit [ExpensesLoading, ExpenseUpdatedSuccess] on successful update',
+      build: () {
+        when(mockExpensesRepository.updateExpense(
+                testExpenseId, testUpdatedExpense))
+            .thenAnswer((_) async => const Right(null));
+        return expensesBloc;
+      },
+      act: (bloc) =>
+          bloc.add(UpdateExpenseEvent(testExpenseId, testUpdatedExpense)),
+      expect: () => [
+        ExpensesLoading(),
+        ExpenseUpdatedSuccess(),
+      ],
+      verify: (_) {
+        verify(mockExpensesRepository.updateExpense(
+                testExpenseId, testUpdatedExpense))
+            .called(1);
+      },
+    );
+
+    blocTest<ExpensesBloc, ExpensesState>(
+      'should emit [ExpensesLoading, ExpensesError] on failure',
+      build: () {
+        when(mockExpensesRepository.updateExpense(
+                testExpenseId, testUpdatedExpense))
+            .thenAnswer((_) async => const Left(
+                  ServerFailure(
+                    message: 'Update failed',
+                    statusCode: 500,
+                  ),
+                ));
+        return expensesBloc;
+      },
+      act: (bloc) =>
+          bloc.add(UpdateExpenseEvent(testExpenseId, testUpdatedExpense)),
+      expect: () => [
+        ExpensesLoading(),
+        const ExpensesError('Update failed'),
+      ],
+      verify: (_) {
+        verify(mockExpensesRepository.updateExpense(
+                testExpenseId, testUpdatedExpense))
+            .called(1);
+      },
+    );
+  });
+
+  group('DeleteExpenseEvent', () {
+    blocTest<ExpensesBloc, ExpensesState>(
+      'should emit [ExpensesLoading, ExpenseDeletedSuccess] on successful deletion',
+      build: () {
+        when(mockExpensesRepository.deleteExpense(testExpenseId))
+            .thenAnswer((_) async => const Right(null));
+        return expensesBloc;
+      },
+      act: (bloc) => bloc.add(const DeleteExpenseEvent(testExpenseId)),
+      expect: () => [
+        ExpensesLoading(),
+        ExpenseDeletedSuccess(),
+      ],
+      verify: (_) {
+        verify(mockExpensesRepository.deleteExpense(testExpenseId)).called(1);
+      },
+    );
+
+    blocTest<ExpensesBloc, ExpensesState>(
+      'should emit [ExpensesLoading, ExpensesError] on failure',
+      build: () {
+        when(mockExpensesRepository.deleteExpense(testExpenseId))
+            .thenAnswer((_) async => const Left(
+                  ServerFailure(
+                    message: 'Deletion failed',
+                    statusCode: 500,
+                  ),
+                ));
+        return expensesBloc;
+      },
+      act: (bloc) => bloc.add(const DeleteExpenseEvent(testExpenseId)),
+      expect: () => [
+        ExpensesLoading(),
+        const ExpensesError('Deletion failed'),
+      ],
+      verify: (_) {
+        verify(mockExpensesRepository.deleteExpense(testExpenseId)).called(1);
       },
     );
   });
