@@ -1,36 +1,55 @@
 import 'package:bloc/bloc.dart';
+import 'package:date_split_app/features/auth/domain/usecases/delete_account.dart';
+import 'package:date_split_app/features/auth/domain/usecases/reset_password.dart';
+import 'package:date_split_app/features/auth/domain/usecases/signin.dart';
+import 'package:date_split_app/features/auth/domain/usecases/signup.dart';
 import 'package:equatable/equatable.dart';
-import 'package:date_split_app/features/auth/domain/repositories/auth_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepository authRepository;
-
-  AuthBloc({required this.authRepository}) : super(AuthInitial()) {
+  AuthBloc({
+    required Signup signup,
+    required SignIn signIn,
+    required ResetPassword resetPassword,
+    required DeleteAccount deleteAccount,
+  })  : _signUp = signup,
+        _signIn = signIn,
+        _resetPassword = resetPassword,
+        _deleteAccount = deleteAccount,
+        super(AuthInitial()) {
     on<SignUpEvent>(_onSignUp);
     on<SignInEvent>(_onSignIn);
     on<ResetPasswordEvent>(_onResetPassword);
     on<DeleteAccountEvent>(_onDeleteAccount);
   }
 
+  final Signup _signUp;
+  final SignIn _signIn;
+  final ResetPassword _resetPassword;
+  final DeleteAccount _deleteAccount;
+
   Future<void> _onSignUp(SignUpEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    final result = await authRepository.signUp(
-      event.email,
-      event.password,
-      event.displayName,
-    );
+    final result = await _signUp(SignUpParams(
+      email: event.email,
+      displayName: event.displayName,
+      password: event.password,
+    ));
+
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (uid) => emit(AuthSuccess(uid: uid)),
+      (uid) => emit(const AuthSuccess()),
     );
   }
 
   Future<void> _onSignIn(SignInEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    final result = await authRepository.signIn(event.email, event.password);
+    final result = await _signIn.call(SignInParams(
+      email: event.email,
+      password: event.password,
+    ));
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (_) => emit(const AuthSuccess(uid: null)),
@@ -40,7 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onResetPassword(
       ResetPasswordEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    final result = await authRepository.resetPassword(event.email);
+    final result = await _resetPassword.call(event.email);
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (_) => emit(const AuthSuccess(uid: null)),
@@ -50,7 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onDeleteAccount(
       DeleteAccountEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    final result = await authRepository.deleteAccount(event.uid);
+    final result = await _deleteAccount.call(event.uid);
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (_) => emit(const AuthSuccess(uid: null)),
