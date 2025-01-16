@@ -21,19 +21,21 @@ void main() {
       const email = 'test@example.com';
       const password = 'password123';
       const displayName = 'Test User';
-      const uid = 'testUid123';
 
       // Certifique-se de que o mock foi configurado corretamente.
-      when(mockAuthRepository.signUp(email, password, displayName))
-          .thenAnswer((_) async => const Right(uid));
+      when(mockAuthRepository.signUp(
+              email: email, password: password, displayName: displayName))
+          .thenAnswer((_) async => const Right(null));
 
       // Act
-      final result =
-          await mockAuthRepository.signUp(email, password, displayName);
+      final result = await mockAuthRepository.signUp(
+          email: email, password: password, displayName: displayName);
 
       // Assert
-      expect(result, equals(const Right(uid)));
-      verify(mockAuthRepository.signUp(email, password, displayName)).called(1);
+      expect(result, equals(const Right(null)));
+      verify(mockAuthRepository.signUp(
+              email: email, password: password, displayName: displayName))
+          .called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
@@ -45,16 +47,19 @@ void main() {
       const failure =
           ServerFailure(message: 'Password too short', statusCode: 400);
 
-      when(mockAuthRepository.signUp(email, password, displayName))
+      when(mockAuthRepository.signUp(
+              email: email, password: password, displayName: displayName))
           .thenAnswer((_) async => const Left(failure));
 
       // Act
-      final result =
-          await mockAuthRepository.signUp(email, password, displayName);
+      final result = await mockAuthRepository.signUp(
+          email: email, password: password, displayName: displayName);
 
       // Assert
       expect(result, equals(const Left(failure)));
-      verify(mockAuthRepository.signUp(email, password, displayName)).called(1);
+      verify(mockAuthRepository.signUp(
+              email: email, password: password, displayName: displayName))
+          .called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
@@ -63,15 +68,17 @@ void main() {
       const email = 'test@example.com';
       const password = 'password123';
 
-      when(mockAuthRepository.signIn(email, password))
+      when(mockAuthRepository.signIn(email: email, password: password))
           .thenAnswer((_) async => const Right(null));
 
       // Act
-      final result = await mockAuthRepository.signIn(email, password);
+      final result =
+          await mockAuthRepository.signIn(email: email, password: password);
 
       // Assert
       expect(result, equals(const Right(null)));
-      verify(mockAuthRepository.signIn(email, password)).called(1);
+      verify(mockAuthRepository.signIn(email: email, password: password))
+          .called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
@@ -82,15 +89,17 @@ void main() {
       const failure =
           ServerFailure(message: 'Invalid credentials', statusCode: 401);
 
-      when(mockAuthRepository.signIn(email, password))
+      when(mockAuthRepository.signIn(email: email, password: password))
           .thenAnswer((_) async => const Left(failure));
 
       // Act
-      final result = await mockAuthRepository.signIn(email, password);
+      final result =
+          await mockAuthRepository.signIn(email: email, password: password);
 
       // Assert
       expect(result, equals(const Left(failure)));
-      verify(mockAuthRepository.signIn(email, password)).called(1);
+      verify(mockAuthRepository.signIn(email: email, password: password))
+          .called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
@@ -98,15 +107,15 @@ void main() {
       // Arrange
       const email = 'test@example.com';
 
-      when(mockAuthRepository.resetPassword(email))
+      when(mockAuthRepository.resetPassword(email: email))
           .thenAnswer((_) async => const Right(null));
 
       // Act
-      final result = await mockAuthRepository.resetPassword(email);
+      final result = await mockAuthRepository.resetPassword(email: email);
 
       // Assert
       expect(result, equals(const Right(null)));
-      verify(mockAuthRepository.resetPassword(email)).called(1);
+      verify(mockAuthRepository.resetPassword(email: email)).called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
@@ -116,15 +125,15 @@ void main() {
       const failure =
           ServerFailure(message: 'Email not found', statusCode: 404);
 
-      when(mockAuthRepository.resetPassword(email))
+      when(mockAuthRepository.resetPassword(email: email))
           .thenAnswer((_) async => const Left(failure));
 
       // Act
-      final result = await mockAuthRepository.resetPassword(email);
+      final result = await mockAuthRepository.resetPassword(email: email);
 
       // Assert
       expect(result, equals(const Left(failure)));
-      verify(mockAuthRepository.resetPassword(email)).called(1);
+      verify(mockAuthRepository.resetPassword(email: email)).called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
@@ -132,15 +141,15 @@ void main() {
       // Arrange
       const uid = 'testUid123';
 
-      when(mockAuthRepository.deleteAccount(uid))
+      when(mockAuthRepository.deleteAccount(uid: uid))
           .thenAnswer((_) async => const Right(null));
 
       // Act
-      final result = await mockAuthRepository.deleteAccount(uid);
+      final result = await mockAuthRepository.deleteAccount(uid: uid);
 
       // Assert
       expect(result, equals(const Right(null)));
-      verify(mockAuthRepository.deleteAccount(uid)).called(1);
+      verify(mockAuthRepository.deleteAccount(uid: uid)).called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
@@ -150,15 +159,15 @@ void main() {
       const failure =
           ServerFailure(message: 'Account not found', statusCode: 404);
 
-      when(mockAuthRepository.deleteAccount(uid))
+      when(mockAuthRepository.deleteAccount(uid: uid))
           .thenAnswer((_) async => const Left(failure));
 
       // Act
-      final result = await mockAuthRepository.deleteAccount(uid);
+      final result = await mockAuthRepository.deleteAccount(uid: uid);
 
       // Assert
       expect(result, equals(const Left(failure)));
-      verify(mockAuthRepository.deleteAccount(uid)).called(1);
+      verify(mockAuthRepository.deleteAccount(uid: uid)).called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
   });

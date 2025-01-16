@@ -5,16 +5,16 @@ abstract class Failure extends Equatable {
   const Failure({required this.message, required this.statusCode});
 
   final String message;
-  final dynamic statusCode;
+  final Object? statusCode;
 
   String get errorMessage {
-    final showErrorText =
-        statusCode! is String || int.tryParse(statusCode as String) != null;
-    return '$statusCode${showErrorText ? ' Error' : ''}: $message';
+    final showErrorText = statusCode != null &&
+        (statusCode is String || int.tryParse(statusCode as String) != null);
+    return '${statusCode ?? 'Unknown'}${showErrorText ? ' Error' : ''}: $message';
   }
 
   @override
-  List<Object> get props => [message, statusCode];
+  List<Object> get props => [message, statusCode ?? 'Unknown'];
 }
 
 class CacheFailure extends Failure {

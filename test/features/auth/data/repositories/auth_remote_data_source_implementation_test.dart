@@ -35,10 +35,11 @@ void main() {
       )).thenAnswer((_) async => uid);
 
       // Act
-      final result = await repository.signUp(email, password, displayName);
+      final result = await repository.signUp(
+          email: email, password: password, displayName: displayName);
 
       // Assert
-      expect(result, equals(const Right(uid)));
+      expect(result, equals(const Right(null)));
       verify(mockRemoteDataSource.signUp(
         email: email,
         password: password,
@@ -56,7 +57,8 @@ void main() {
           const ServerException(message: 'Server error', statusCode: 500));
 
       // Act
-      final result = await repository.signUp(email, password, displayName);
+      final result = await repository.signUp(
+          email: email, password: password, displayName: displayName);
 
       // Assert
       expect(result.isLeft(), isTrue);
@@ -79,10 +81,11 @@ void main() {
       )).thenThrow(Exception('Unexpected error'));
 
       // Act
-      final result = await repository.signUp(email, password, displayName);
+      final result = await repository.signUp(
+          email: email, password: password, displayName: displayName);
 
       // Assert
-      expect(result, isA<Left<Failure, String>>());
+      expect(result, isA<Left<Failure, void>>());
       verify(mockRemoteDataSource.signUp(
         email: email,
         password: password,
@@ -101,7 +104,10 @@ void main() {
           .thenAnswer((_) async {});
 
       // Act
-      final result = await repository.signIn(email, password);
+      final result = await repository.signIn(
+        email: email,
+        password: password,
+      );
 
       // Assert
       expect(result, equals(const Right(null)));
@@ -116,7 +122,7 @@ void main() {
               message: 'Invalid credentials', statusCode: 401));
 
       // Act
-      final result = await repository.signIn(email, password);
+      final result = await repository.signIn(email: email, password: password);
 
       // Assert
       expect(
@@ -136,7 +142,7 @@ void main() {
       when(mockRemoteDataSource.resetPassword(email)).thenAnswer((_) async {});
 
       // Act
-      final result = await repository.resetPassword(email);
+      final result = await repository.resetPassword(email: email);
 
       // Assert
       expect(result, equals(const Right(null)));
@@ -149,7 +155,7 @@ void main() {
           const ServerException(message: 'Email not found', statusCode: 404));
 
       // Act
-      final result = await repository.resetPassword(email);
+      final result = await repository.resetPassword(email: email);
 
       // Assert
       expect(
@@ -168,7 +174,7 @@ void main() {
       when(mockRemoteDataSource.deleteAccount(uid)).thenAnswer((_) async {});
 
       // Act
-      final result = await repository.deleteAccount(uid);
+      final result = await repository.deleteAccount(uid: uid);
 
       // Assert
       expect(result, equals(const Right(null)));
@@ -181,7 +187,7 @@ void main() {
           const ServerException(message: 'Account not found', statusCode: 404));
 
       // Act
-      final result = await repository.deleteAccount(uid);
+      final result = await repository.deleteAccount(uid: uid);
 
       // Assert
       expect(
