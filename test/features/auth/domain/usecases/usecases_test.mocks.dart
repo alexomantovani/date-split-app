@@ -39,59 +39,77 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, String>> signUp(
-    String? email,
-    String? password,
-    String? displayName,
-  ) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> signUp({
+    required String? email,
+    required String? password,
+    required String? displayName,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#signUp, [email, password, displayName]),
-            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
-              _FakeEither_0<_i5.Failure, String>(
-                this,
-                Invocation.method(#signUp, [email, password, displayName]),
-              ),
-            ),
-          )
-          as _i4.Future<_i2.Either<_i5.Failure, String>>);
-
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> signIn(
-    String? email,
-    String? password,
-  ) =>
-      (super.noSuchMethod(
-            Invocation.method(#signIn, [email, password]),
+            Invocation.method(#signUp, [], {
+              #email: email,
+              #password: password,
+              #displayName: displayName,
+            }),
             returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
               _FakeEither_0<_i5.Failure, void>(
                 this,
-                Invocation.method(#signIn, [email, password]),
+                Invocation.method(#signUp, [], {
+                  #email: email,
+                  #password: password,
+                  #displayName: displayName,
+                }),
               ),
             ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, void>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> resetPassword(String? email) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> signIn({
+    required String? email,
+    required String? password,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#resetPassword, [email]),
+            Invocation.method(#signIn, [], {
+              #email: email,
+              #password: password,
+            }),
             returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
               _FakeEither_0<_i5.Failure, void>(
                 this,
-                Invocation.method(#resetPassword, [email]),
+                Invocation.method(#signIn, [], {
+                  #email: email,
+                  #password: password,
+                }),
               ),
             ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, void>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> deleteAccount(String? uid) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> resetPassword({
+    required String? email,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#deleteAccount, [uid]),
+            Invocation.method(#resetPassword, [], {#email: email}),
             returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
               _FakeEither_0<_i5.Failure, void>(
                 this,
-                Invocation.method(#deleteAccount, [uid]),
+                Invocation.method(#resetPassword, [], {#email: email}),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, void>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, void>> deleteAccount({
+    required String? uid,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteAccount, [], {#uid: uid}),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+              _FakeEither_0<_i5.Failure, void>(
+                this,
+                Invocation.method(#deleteAccount, [], {#uid: uid}),
               ),
             ),
           )

@@ -9,6 +9,14 @@ import 'package:dartz/dartz.dart' as _i2;
 import 'package:date_split_app/core/errors/failure.dart' as _i5;
 import 'package:date_split_app/features/auth/domain/repositories/auth_repository.dart'
     as _i3;
+import 'package:date_split_app/features/auth/domain/usecases/delete_account.dart'
+    as _i9;
+import 'package:date_split_app/features/auth/domain/usecases/reset_password.dart'
+    as _i8;
+import 'package:date_split_app/features/auth/domain/usecases/signin.dart'
+    as _i7;
+import 'package:date_split_app/features/auth/domain/usecases/signup.dart'
+    as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -39,59 +47,165 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, String>> signUp(
-    String? email,
-    String? password,
-    String? displayName,
-  ) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> signUp({
+    required String? email,
+    required String? password,
+    required String? displayName,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#signUp, [email, password, displayName]),
-            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
-              _FakeEither_0<_i5.Failure, String>(
-                this,
-                Invocation.method(#signUp, [email, password, displayName]),
-              ),
-            ),
-          )
-          as _i4.Future<_i2.Either<_i5.Failure, String>>);
-
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> signIn(
-    String? email,
-    String? password,
-  ) =>
-      (super.noSuchMethod(
-            Invocation.method(#signIn, [email, password]),
+            Invocation.method(#signUp, [], {
+              #email: email,
+              #password: password,
+              #displayName: displayName,
+            }),
             returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
               _FakeEither_0<_i5.Failure, void>(
                 this,
-                Invocation.method(#signIn, [email, password]),
+                Invocation.method(#signUp, [], {
+                  #email: email,
+                  #password: password,
+                  #displayName: displayName,
+                }),
               ),
             ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, void>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> resetPassword(String? email) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> signIn({
+    required String? email,
+    required String? password,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#resetPassword, [email]),
+            Invocation.method(#signIn, [], {
+              #email: email,
+              #password: password,
+            }),
             returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
               _FakeEither_0<_i5.Failure, void>(
                 this,
-                Invocation.method(#resetPassword, [email]),
+                Invocation.method(#signIn, [], {
+                  #email: email,
+                  #password: password,
+                }),
               ),
             ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, void>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> deleteAccount(String? uid) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> resetPassword({
+    required String? email,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#deleteAccount, [uid]),
+            Invocation.method(#resetPassword, [], {#email: email}),
             returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
               _FakeEither_0<_i5.Failure, void>(
                 this,
-                Invocation.method(#deleteAccount, [uid]),
+                Invocation.method(#resetPassword, [], {#email: email}),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, void>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, void>> deleteAccount({
+    required String? uid,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteAccount, [], {#uid: uid}),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+              _FakeEither_0<_i5.Failure, void>(
+                this,
+                Invocation.method(#deleteAccount, [], {#uid: uid}),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, void>>);
+}
+
+/// A class which mocks [Signup].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSignup extends _i1.Mock implements _i6.Signup {
+  MockSignup() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, void>> call(_i6.SignUpParams? params) =>
+      (super.noSuchMethod(
+            Invocation.method(#call, [params]),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+              _FakeEither_0<_i5.Failure, void>(
+                this,
+                Invocation.method(#call, [params]),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, void>>);
+}
+
+/// A class which mocks [SignIn].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSignIn extends _i1.Mock implements _i7.SignIn {
+  MockSignIn() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, void>> call(_i7.SignInParams? params) =>
+      (super.noSuchMethod(
+            Invocation.method(#call, [params]),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+              _FakeEither_0<_i5.Failure, void>(
+                this,
+                Invocation.method(#call, [params]),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, void>>);
+}
+
+/// A class which mocks [ResetPassword].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockResetPassword extends _i1.Mock implements _i8.ResetPassword {
+  MockResetPassword() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, void>> call(String? params) =>
+      (super.noSuchMethod(
+            Invocation.method(#call, [params]),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+              _FakeEither_0<_i5.Failure, void>(
+                this,
+                Invocation.method(#call, [params]),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, void>>);
+}
+
+/// A class which mocks [DeleteAccount].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDeleteAccount extends _i1.Mock implements _i9.DeleteAccount {
+  MockDeleteAccount() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, void>> call(String? params) =>
+      (super.noSuchMethod(
+            Invocation.method(#call, [params]),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+              _FakeEither_0<_i5.Failure, void>(
+                this,
+                Invocation.method(#call, [params]),
               ),
             ),
           )
