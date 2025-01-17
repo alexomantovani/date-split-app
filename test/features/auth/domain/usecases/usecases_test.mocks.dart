@@ -39,7 +39,7 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> signUp({
+  _i4.Future<_i2.Either<_i5.Failure, String>> signUp({
     required String? email,
     required String? password,
     required String? displayName,
@@ -50,8 +50,8 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
               #password: password,
               #displayName: displayName,
             }),
-            returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
-              _FakeEither_0<_i5.Failure, void>(
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+              _FakeEither_0<_i5.Failure, String>(
                 this,
                 Invocation.method(#signUp, [], {
                   #email: email,
@@ -61,10 +61,10 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
               ),
             ),
           )
-          as _i4.Future<_i2.Either<_i5.Failure, void>>);
+          as _i4.Future<_i2.Either<_i5.Failure, String>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> signIn({
+  _i4.Future<_i2.Either<_i5.Failure, String>> signIn({
     required String? email,
     required String? password,
   }) =>
@@ -73,8 +73,8 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
               #email: email,
               #password: password,
             }),
-            returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
-              _FakeEither_0<_i5.Failure, void>(
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+              _FakeEither_0<_i5.Failure, String>(
                 this,
                 Invocation.method(#signIn, [], {
                   #email: email,
@@ -83,7 +83,7 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
               ),
             ),
           )
-          as _i4.Future<_i2.Either<_i5.Failure, void>>);
+          as _i4.Future<_i2.Either<_i5.Failure, String>>);
 
   @override
   _i4.Future<_i2.Either<_i5.Failure, void>> resetPassword({

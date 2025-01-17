@@ -21,18 +21,19 @@ void main() {
       const email = 'test@example.com';
       const password = 'password123';
       const displayName = 'Test User';
+      const message = 'message';
 
       // Certifique-se de que o mock foi configurado corretamente.
       when(mockAuthRepository.signUp(
               email: email, password: password, displayName: displayName))
-          .thenAnswer((_) async => const Right(null));
+          .thenAnswer((_) async => const Right(message));
 
       // Act
       final result = await mockAuthRepository.signUp(
           email: email, password: password, displayName: displayName);
 
       // Assert
-      expect(result, equals(const Right(null)));
+      expect(result, equals(const Right(message)));
       verify(mockAuthRepository.signUp(
               email: email, password: password, displayName: displayName))
           .called(1);
@@ -67,16 +68,17 @@ void main() {
       // Arrange
       const email = 'test@example.com';
       const password = 'password123';
+      const message = 'message';
 
       when(mockAuthRepository.signIn(email: email, password: password))
-          .thenAnswer((_) async => const Right(null));
+          .thenAnswer((_) async => const Right(message));
 
       // Act
       final result =
           await mockAuthRepository.signIn(email: email, password: password);
 
       // Assert
-      expect(result, equals(const Right(null)));
+      expect(result, equals(const Right(message)));
       verify(mockAuthRepository.signIn(email: email, password: password))
           .called(1);
       verifyNoMoreInteractions(mockAuthRepository);

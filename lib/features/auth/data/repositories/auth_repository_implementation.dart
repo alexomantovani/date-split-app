@@ -11,18 +11,18 @@ class AuthRepositoryImplementation implements AuthRepository {
   const AuthRepositoryImplementation(this._remoteDataSource);
 
   @override
-  EitherFuture<void> signUp({
+  EitherFuture<String> signUp({
     required String email,
     required String password,
     required String displayName,
   }) async {
     try {
-      await _remoteDataSource.signUp(
+      final result = await _remoteDataSource.signUp(
         email: email,
         password: password,
         displayName: displayName,
       );
-      return const Right(null);
+      return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
     } catch (e) {
@@ -32,13 +32,14 @@ class AuthRepositoryImplementation implements AuthRepository {
   }
 
   @override
-  EitherFuture<void> signIn({
+  EitherFuture<String> signIn({
     required String email,
     required String password,
   }) async {
     try {
-      await _remoteDataSource.signIn(email: email, password: password);
-      return const Right(null);
+      final result =
+          await _remoteDataSource.signIn(email: email, password: password);
+      return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
     } catch (e) {
