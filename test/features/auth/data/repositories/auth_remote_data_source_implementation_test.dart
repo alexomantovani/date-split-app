@@ -24,7 +24,7 @@ void main() {
     const email = 'test@example.com';
     const password = 'password123';
     const displayName = 'Test User';
-    const uid = 'testUid123';
+    const message = 'message';
 
     test('should return UID on successful sign up', () async {
       // Arrange
@@ -32,14 +32,14 @@ void main() {
         email: email,
         password: password,
         displayName: displayName,
-      )).thenAnswer((_) async => uid);
+      )).thenAnswer((_) async => message);
 
       // Act
       final result = await repository.signUp(
           email: email, password: password, displayName: displayName);
 
       // Assert
-      expect(result, equals(const Right(null)));
+      expect(result, equals(const Right(message)));
       verify(mockRemoteDataSource.signUp(
         email: email,
         password: password,
@@ -97,11 +97,12 @@ void main() {
   group('signIn', () {
     const email = 'test@example.com';
     const password = 'password123';
+    const message = 'message';
 
     test('should return void on successful sign in', () async {
       // Arrange
       when(mockRemoteDataSource.signIn(email: email, password: password))
-          .thenAnswer((_) async {});
+          .thenAnswer((_) async => message);
 
       // Act
       final result = await repository.signIn(
@@ -110,7 +111,7 @@ void main() {
       );
 
       // Assert
-      expect(result, equals(const Right(null)));
+      expect(result, equals(const Right(message)));
       verify(mockRemoteDataSource.signIn(email: email, password: password))
           .called(1);
     });

@@ -3,13 +3,13 @@ import 'package:date_split_app/core/utils/typedefs.dart';
 import 'package:date_split_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 
-class Signup extends UsecaseWithParams<void, SignUpParams> {
+class Signup extends UsecaseWithParams<String, SignUpParams> {
   const Signup(this._repository);
 
   final AuthRepository _repository;
 
   @override
-  EitherFuture<void> call(params) => _repository.signUp(
+  EitherFuture<String> call(params) => _repository.signUp(
         email: params.email,
         displayName: params.displayName,
         password: params.password,

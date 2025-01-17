@@ -12,12 +12,12 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class AuthSuccess extends AuthState {
-  final String? uid;
+  final String? message;
 
-  const AuthSuccess({this.uid});
+  const AuthSuccess({this.message});
 
   @override
-  List<Object?> get props => [uid];
+  List<Object?> get props => [message];
 }
 
 class AuthError extends AuthState {

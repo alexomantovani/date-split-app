@@ -59,7 +59,7 @@ class MockAuthRemoteDataSource extends _i1.Mock
           as _i3.Future<String>);
 
   @override
-  _i3.Future<void> signIn({
+  _i3.Future<String> signIn({
     required String? email,
     required String? password,
   }) =>
@@ -68,10 +68,17 @@ class MockAuthRemoteDataSource extends _i1.Mock
               #email: email,
               #password: password,
             }),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i3.Future<String>.value(
+              _i4.dummyValue<String>(
+                this,
+                Invocation.method(#signIn, [], {
+                  #email: email,
+                  #password: password,
+                }),
+              ),
+            ),
           )
-          as _i3.Future<void>);
+          as _i3.Future<String>);
 
   @override
   _i3.Future<void> resetPassword(String? email) =>
