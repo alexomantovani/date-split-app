@@ -9,7 +9,7 @@ class SignIn extends UsecaseWithParams<void, SignInParams> {
   final AuthRepository _repository;
 
   @override
-  EitherFuture<void> call(params) => _repository.signIn(
+  EitherFuture<String> call(params) => _repository.signIn(
         email: params.email,
         password: params.password,
       );

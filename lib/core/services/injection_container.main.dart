@@ -28,5 +28,5 @@ Future<void> authInit() async {
               baseUrl: sl(),
             ))
     ..registerLazySingleton(() => http.Client())
-    ..registerLazySingleton(() => apiBaseUrl);
+    ..registerLazySingleton(() => kApiBaseUrl);
 }

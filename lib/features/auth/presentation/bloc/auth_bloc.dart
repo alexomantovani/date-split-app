@@ -32,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onSignUp(SignUpEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    final result = await _signUp(SignUpParams(
+    final result = await _signUp.call(SignUpParams(
       email: event.email,
       displayName: event.displayName,
       password: event.password,
@@ -40,7 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (uid) => emit(const AuthSuccess()),
+      (message) => emit(AuthSuccess(message: message)),
     );
   }
 
@@ -52,7 +52,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     ));
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (_) => emit(const AuthSuccess(uid: null)),
+      (message) => emit(AuthSuccess(message: message)),
     );
   }
 
@@ -62,7 +62,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await _resetPassword.call(event.email);
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (_) => emit(const AuthSuccess(uid: null)),
+      (_) => emit(const AuthSuccess(message: null)),
     );
   }
 
@@ -72,7 +72,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await _deleteAccount.call(event.uid);
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (_) => emit(const AuthSuccess(uid: null)),
+      (_) => emit(const AuthSuccess(message: null)),
     );
   }
 }

@@ -9,7 +9,7 @@ abstract class AuthRemoteDataSource {
     required String displayName,
   });
 
-  Future<void> signIn({
+  Future<String> signIn({
     required String email,
     required String password,
   });
@@ -47,9 +47,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       body: body,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       final responseData = jsonDecode(response.body);
-      return responseData['uid'];
+      return responseData['message'];
     } else {
       final errorData = jsonDecode(response.body);
       throw ServerException(
@@ -60,7 +60,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> signIn({
+  Future<String> signIn({
     required String email,
     required String password,
   }) async {
@@ -73,7 +73,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       body: body,
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      return responseData['uid'];
+    } else {
       final errorData = jsonDecode(response.body);
       throw ServerException(
         message: errorData['message'] ?? 'Erro ao fazer login.',

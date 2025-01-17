@@ -44,13 +44,14 @@ void main() {
     const email = 'test@example.com';
     const password = 'password123';
     const displayName = 'Test User';
+    const message = 'message';
 
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, AuthSuccess] on successful sign-up',
       build: () {
         when(signUp.call(const SignUpParams(
                 email: email, displayName: displayName, password: password)))
-            .thenAnswer((_) async => const Right(null));
+            .thenAnswer((_) async => const Right(message));
         return authBloc;
       },
       act: (bloc) => bloc.add(const SignUpEvent(
@@ -58,7 +59,7 @@ void main() {
         password: password,
         displayName: displayName,
       )),
-      expect: () => [AuthLoading(), const AuthSuccess()],
+      expect: () => [AuthLoading(), const AuthSuccess(message: message)],
       verify: (_) {
         verify(signUp.call(const SignUpParams(
                 email: email, displayName: displayName, password: password)))
@@ -94,19 +95,20 @@ void main() {
   group('SignIn', () {
     const email = 'test@example.com';
     const password = 'password123';
+    const message = 'message';
 
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, AuthSuccess] on successful sign-in',
       build: () {
         when(signIn.call(const SignInParams(email: email, password: password)))
-            .thenAnswer((_) async => const Right(null));
+            .thenAnswer((_) async => const Right(message));
         return authBloc;
       },
       act: (bloc) => bloc.add(const SignInEvent(
         email: email,
         password: password,
       )),
-      expect: () => [AuthLoading(), const AuthSuccess(uid: null)],
+      expect: () => [AuthLoading(), const AuthSuccess(message: message)],
       verify: (_) {
         verify(signIn
                 .call(const SignInParams(email: email, password: password)))
@@ -148,7 +150,7 @@ void main() {
         return authBloc;
       },
       act: (bloc) => bloc.add(const ResetPasswordEvent(email)),
-      expect: () => [AuthLoading(), const AuthSuccess(uid: null)],
+      expect: () => [AuthLoading(), const AuthSuccess(message: null)],
       verify: (_) {
         verify(resetPassword.call(email)).called(1);
       },
@@ -173,36 +175,36 @@ void main() {
   });
 
   group('DeleteAccount', () {
-    const uid = 'testUid123';
+    const message = 'testmessage123';
 
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, AuthSuccess] on successful account deletion',
       build: () {
-        when(deleteAccount.call(uid))
+        when(deleteAccount.call(message))
             .thenAnswer((_) async => const Right(null));
         return authBloc;
       },
-      act: (bloc) => bloc.add(const DeleteAccountEvent(uid)),
-      expect: () => [AuthLoading(), const AuthSuccess(uid: null)],
+      act: (bloc) => bloc.add(const DeleteAccountEvent(message)),
+      expect: () => [AuthLoading(), const AuthSuccess(message: null)],
       verify: (_) {
-        verify(deleteAccount.call(uid)).called(1);
+        verify(deleteAccount.call(message)).called(1);
       },
     );
 
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, AuthFailure] on account deletion failure',
       build: () {
-        when(deleteAccount.call(uid))
+        when(deleteAccount.call(message))
             .thenAnswer((_) async => const Left(ServerFailure(
                   message: 'Account not found',
                   statusCode: 404,
                 )));
         return authBloc;
       },
-      act: (bloc) => bloc.add(const DeleteAccountEvent(uid)),
+      act: (bloc) => bloc.add(const DeleteAccountEvent(message)),
       expect: () => [AuthLoading(), const AuthError('Account not found')],
       verify: (_) {
-        verify(deleteAccount.call(uid)).called(1);
+        verify(deleteAccount.call(message)).called(1);
       },
     );
   });
