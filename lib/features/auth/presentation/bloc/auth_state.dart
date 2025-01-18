@@ -20,6 +20,15 @@ class AuthSuccess extends AuthState {
   List<Object?> get props => [message];
 }
 
+class SignInSuccess extends AuthState {
+  final UserModel userModel;
+
+  const SignInSuccess({required this.userModel});
+
+  @override
+  List<Object?> get props => [userModel];
+}
+
 class AuthError extends AuthState {
   final String message;
 

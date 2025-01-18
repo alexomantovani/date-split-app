@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
+import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:date_split_app/features/auth/domain/usecases/delete_account.dart';
 import 'package:date_split_app/features/auth/domain/usecases/reset_password.dart';
 import 'package:date_split_app/features/auth/domain/usecases/signin.dart';
@@ -16,7 +17,6 @@ import 'auth_bloc_test.mocks.dart';
 
 @GenerateMocks([AuthRepository, Signup, SignIn, ResetPassword, DeleteAccount])
 void main() {
-  // late MockAuthRepository mockAuthRepository;
   late AuthBloc authBloc;
   late Signup signUp;
   late SignIn signIn;
@@ -28,7 +28,6 @@ void main() {
     signIn = MockSignIn();
     resetPassword = MockResetPassword();
     deleteAccount = MockDeleteAccount();
-    // mockAuthRepository = MockAuthRepository();
     authBloc = AuthBloc(
         signup: signUp,
         signIn: signIn,
@@ -95,20 +94,20 @@ void main() {
   group('SignIn', () {
     const email = 'test@example.com';
     const password = 'password123';
-    const message = 'message';
+    const userModel = UserModel.empty();
 
     blocTest<AuthBloc, AuthState>(
-      'emits [AuthLoading, AuthSuccess] on successful sign-in',
+      'emits [AuthLoading, SignInSuccess] on successful sign-in',
       build: () {
         when(signIn.call(const SignInParams(email: email, password: password)))
-            .thenAnswer((_) async => const Right(message));
+            .thenAnswer((_) async => const Right(userModel));
         return authBloc;
       },
       act: (bloc) => bloc.add(const SignInEvent(
         email: email,
         password: password,
       )),
-      expect: () => [AuthLoading(), const AuthSuccess(message: message)],
+      expect: () => [AuthLoading(), const SignInSuccess(userModel: userModel)],
       verify: (_) {
         verify(signIn
                 .call(const SignInParams(email: email, password: password)))
@@ -141,16 +140,17 @@ void main() {
 
   group('ResetPassword', () {
     const email = 'test@example.com';
+    const message = 'message';
 
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, AuthSuccess] on successful password reset',
       build: () {
         when(resetPassword.call(email))
-            .thenAnswer((_) async => const Right(null));
+            .thenAnswer((_) async => const Right(message));
         return authBloc;
       },
       act: (bloc) => bloc.add(const ResetPasswordEvent(email)),
-      expect: () => [AuthLoading(), const AuthSuccess(message: null)],
+      expect: () => [AuthLoading(), const AuthSuccess(message: message)],
       verify: (_) {
         verify(resetPassword.call(email)).called(1);
       },
@@ -181,11 +181,11 @@ void main() {
       'emits [AuthLoading, AuthSuccess] on successful account deletion',
       build: () {
         when(deleteAccount.call(message))
-            .thenAnswer((_) async => const Right(null));
+            .thenAnswer((_) async => const Right(message));
         return authBloc;
       },
       act: (bloc) => bloc.add(const DeleteAccountEvent(message)),
-      expect: () => [AuthLoading(), const AuthSuccess(message: null)],
+      expect: () => [AuthLoading(), const AuthSuccess(message: message)],
       verify: (_) {
         verify(deleteAccount.call(message)).called(1);
       },

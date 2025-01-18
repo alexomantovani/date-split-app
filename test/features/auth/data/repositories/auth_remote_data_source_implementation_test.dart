@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -26,7 +27,7 @@ void main() {
     const displayName = 'Test User';
     const message = 'message';
 
-    test('should return UID on successful sign up', () async {
+    test('should return message on successful sign up', () async {
       // Arrange
       when(mockRemoteDataSource.signUp(
         email: email,
@@ -97,12 +98,12 @@ void main() {
   group('signIn', () {
     const email = 'test@example.com';
     const password = 'password123';
-    const message = 'message';
+    const userModel = UserModel.empty();
 
-    test('should return void on successful sign in', () async {
+    test('should return UserModel on successful sign in', () async {
       // Arrange
       when(mockRemoteDataSource.signIn(email: email, password: password))
-          .thenAnswer((_) async => message);
+          .thenAnswer((_) async => userModel);
 
       // Act
       final result = await repository.signIn(
@@ -111,7 +112,7 @@ void main() {
       );
 
       // Assert
-      expect(result, equals(const Right(message)));
+      expect(result, equals(const Right(userModel)));
       verify(mockRemoteDataSource.signIn(email: email, password: password))
           .called(1);
     });
@@ -137,16 +138,18 @@ void main() {
 
   group('resetPassword', () {
     const email = 'test@example.com';
+    const message = 'message';
 
-    test('should return void on successful reset password', () async {
+    test('should return message on successful reset password', () async {
       // Arrange
-      when(mockRemoteDataSource.resetPassword(email)).thenAnswer((_) async {});
+      when(mockRemoteDataSource.resetPassword(email))
+          .thenAnswer((_) async => message);
 
       // Act
       final result = await repository.resetPassword(email: email);
 
       // Assert
-      expect(result, equals(const Right(null)));
+      expect(result, equals(const Right(message)));
       verify(mockRemoteDataSource.resetPassword(email)).called(1);
     });
 
@@ -169,16 +172,18 @@ void main() {
 
   group('deleteAccount', () {
     const uid = 'testUid123';
+    const message = 'message';
 
     test('should return void on successful account deletion', () async {
       // Arrange
-      when(mockRemoteDataSource.deleteAccount(uid)).thenAnswer((_) async {});
+      when(mockRemoteDataSource.deleteAccount(uid))
+          .thenAnswer((_) async => message);
 
       // Act
       final result = await repository.deleteAccount(uid: uid);
 
       // Assert
-      expect(result, equals(const Right(null)));
+      expect(result, equals(const Right(message)));
       verify(mockRemoteDataSource.deleteAccount(uid)).called(1);
     });
 
