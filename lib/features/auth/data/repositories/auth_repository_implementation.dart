@@ -3,6 +3,7 @@ import 'package:date_split_app/core/errors/exception.dart';
 import 'package:date_split_app/core/errors/failure.dart';
 import 'package:date_split_app/core/utils/typedefs.dart';
 import 'package:date_split_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:date_split_app/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImplementation implements AuthRepository {
@@ -32,7 +33,7 @@ class AuthRepositoryImplementation implements AuthRepository {
   }
 
   @override
-  EitherFuture<String> signIn({
+  EitherFuture<UserModel> signIn({
     required String email,
     required String password,
   }) async {
@@ -48,10 +49,10 @@ class AuthRepositoryImplementation implements AuthRepository {
   }
 
   @override
-  EitherFuture<void> resetPassword({required String email}) async {
+  EitherFuture<String> resetPassword({required String email}) async {
     try {
-      await _remoteDataSource.resetPassword(email);
-      return const Right(null);
+      final result = await _remoteDataSource.resetPassword(email);
+      return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
     } catch (e) {
@@ -60,10 +61,10 @@ class AuthRepositoryImplementation implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteAccount({required String uid}) async {
+  EitherFuture<String> deleteAccount({required String uid}) async {
     try {
-      await _remoteDataSource.deleteAccount(uid);
-      return const Right(null);
+      final result = await _remoteDataSource.deleteAccount(uid);
+      return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
     } catch (e) {

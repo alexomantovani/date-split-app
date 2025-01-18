@@ -3,12 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
 import 'package:date_split_app/features/auth/data/datasources/auth_remote_data_source.dart'
+    as _i3;
+import 'package:date_split_app/features/auth/data/models/user_model.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i4;
+import 'package:mockito/src/dummies.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -24,17 +26,22 @@ import 'package:mockito/src/dummies.dart' as _i4;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeUserModel_0 extends _i1.SmartFake implements _i2.UserModel {
+  _FakeUserModel_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [AuthRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthRemoteDataSource extends _i1.Mock
-    implements _i2.AuthRemoteDataSource {
+    implements _i3.AuthRemoteDataSource {
   MockAuthRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<String> signUp({
+  _i4.Future<String> signUp({
     required String? email,
     required String? password,
     required String? displayName,
@@ -45,8 +52,8 @@ class MockAuthRemoteDataSource extends _i1.Mock
               #password: password,
               #displayName: displayName,
             }),
-            returnValue: _i3.Future<String>.value(
-              _i4.dummyValue<String>(
+            returnValue: _i4.Future<String>.value(
+              _i5.dummyValue<String>(
                 this,
                 Invocation.method(#signUp, [], {
                   #email: email,
@@ -56,10 +63,10 @@ class MockAuthRemoteDataSource extends _i1.Mock
               ),
             ),
           )
-          as _i3.Future<String>);
+          as _i4.Future<String>);
 
   @override
-  _i3.Future<String> signIn({
+  _i4.Future<_i2.UserModel> signIn({
     required String? email,
     required String? password,
   }) =>
@@ -68,8 +75,8 @@ class MockAuthRemoteDataSource extends _i1.Mock
               #email: email,
               #password: password,
             }),
-            returnValue: _i3.Future<String>.value(
-              _i4.dummyValue<String>(
+            returnValue: _i4.Future<_i2.UserModel>.value(
+              _FakeUserModel_0(
                 this,
                 Invocation.method(#signIn, [], {
                   #email: email,
@@ -78,23 +85,31 @@ class MockAuthRemoteDataSource extends _i1.Mock
               ),
             ),
           )
-          as _i3.Future<String>);
+          as _i4.Future<_i2.UserModel>);
 
   @override
-  _i3.Future<void> resetPassword(String? email) =>
+  _i4.Future<String> resetPassword(String? email) =>
       (super.noSuchMethod(
             Invocation.method(#resetPassword, [email]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<String>.value(
+              _i5.dummyValue<String>(
+                this,
+                Invocation.method(#resetPassword, [email]),
+              ),
+            ),
           )
-          as _i3.Future<void>);
+          as _i4.Future<String>);
 
   @override
-  _i3.Future<void> deleteAccount(String? uid) =>
+  _i4.Future<String> deleteAccount(String? uid) =>
       (super.noSuchMethod(
             Invocation.method(#deleteAccount, [uid]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<String>.value(
+              _i5.dummyValue<String>(
+                this,
+                Invocation.method(#deleteAccount, [uid]),
+              ),
+            ),
           )
-          as _i3.Future<void>);
+          as _i4.Future<String>);
 }

@@ -10,9 +10,11 @@ class AuthBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: kPrimaryBlue,
+        toolbarHeight: 0,
         systemOverlayStyle:
             const SystemUiOverlayStyle(statusBarColor: kPrimaryBlue),
       ),

@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:date_split_app/core/errors/exception.dart';
+import 'package:date_split_app/core/utils/typedefs.dart';
+import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 abstract class AuthRemoteDataSource {
@@ -9,14 +11,14 @@ abstract class AuthRemoteDataSource {
     required String displayName,
   });
 
-  Future<String> signIn({
+  Future<UserModel> signIn({
     required String email,
     required String password,
   });
 
-  Future<void> resetPassword(String email);
+  Future<String> resetPassword(String email);
 
-  Future<void> deleteAccount(String uid);
+  Future<String> deleteAccount(String uid);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -60,7 +62,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<String> signIn({
+  Future<UserModel> signIn({
     required String email,
     required String password,
   }) async {
@@ -74,8 +76,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-      return responseData['uid'];
+      final DataMap responseData = jsonDecode(response.body);
+      return UserModel.fromJson(responseData);
     } else {
       final errorData = jsonDecode(response.body);
       throw ServerException(
@@ -86,7 +88,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> resetPassword(String email) async {
+  Future<String> resetPassword(String email) async {
     final url = Uri.parse('$baseUrl/auth/reset-password');
     final body = jsonEncode({'email': email});
 
@@ -96,7 +98,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       body: body,
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == 200) {
+      final DataMap responseData = jsonDecode(response.body);
+      return responseData['message'];
+    } else {
       final errorData = jsonDecode(response.body);
       throw ServerException(
         message: errorData['message'] ?? 'Erro ao redefinir senha.',
@@ -106,7 +111,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> deleteAccount(String uid) async {
+  Future<String> deleteAccount(String uid) async {
     final url = Uri.parse('$baseUrl/auth/delete-account/$uid');
 
     final response = await client.delete(
@@ -114,7 +119,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       headers: {'Content-Type': 'application/json'},
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == 200) {
+      final DataMap responseData = jsonDecode(response.body);
+      return responseData['message'];
+    } else {
       final errorData = jsonDecode(response.body);
       throw ServerException(
         message: errorData['message'] ?? 'Erro ao excluir conta.',
