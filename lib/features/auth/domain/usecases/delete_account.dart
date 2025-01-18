@@ -8,6 +8,6 @@ class DeleteAccount extends UsecaseWithParams<void, String> {
   final AuthRepository _repository;
 
   @override
-  EitherFuture<void> call(String params) =>
+  EitherFuture<String> call(String params) =>
       _repository.deleteAccount(uid: params);
 }

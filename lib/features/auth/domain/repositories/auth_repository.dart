@@ -1,4 +1,5 @@
 import 'package:date_split_app/core/utils/typedefs.dart';
+import 'package:date_split_app/features/auth/data/models/user_model.dart';
 
 abstract class AuthRepository {
   const AuthRepository();
@@ -8,8 +9,8 @@ abstract class AuthRepository {
     required String password,
     required String displayName,
   });
-  EitherFuture<String> signIn(
+  EitherFuture<UserModel> signIn(
       {required String email, required String password});
-  EitherFuture<void> resetPassword({required String email});
-  EitherFuture<void> deleteAccount({required String uid});
+  EitherFuture<String> resetPassword({required String email});
+  EitherFuture<String> deleteAccount({required String uid});
 }

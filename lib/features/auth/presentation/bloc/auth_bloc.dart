@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:date_split_app/features/auth/domain/usecases/delete_account.dart';
 import 'package:date_split_app/features/auth/domain/usecases/reset_password.dart';
 import 'package:date_split_app/features/auth/domain/usecases/signin.dart';
@@ -52,7 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     ));
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (message) => emit(AuthSuccess(message: message)),
+      (userModel) => emit(SignInSuccess(userModel: userModel)),
     );
   }
 
@@ -62,7 +63,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await _resetPassword.call(event.email);
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (_) => emit(const AuthSuccess(message: null)),
+      (message) => emit(AuthSuccess(message: message)),
     );
   }
 
@@ -72,7 +73,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await _deleteAccount.call(event.uid);
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (_) => emit(const AuthSuccess(message: null)),
+      (message) => emit(AuthSuccess(message: message)),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:date_split_app/core/services/injection_container.dart';
+import 'package:date_split_app/core/utils/constants.dart';
 import 'package:date_split_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:date_split_app/features/auth/presentation/views/auth_page.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,22 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: kPrimaryBlue),
           useMaterial3: true,
+          textTheme: const TextTheme(
+            titleLarge: TextStyle(
+              color: kPrimaryText,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              fontFamily: kFontFamily,
+            ),
+            bodyMedium: TextStyle(
+              color: kDescriptionText,
+              fontFamily: kFontFamily,
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         home: const AuthPage(),
       ),

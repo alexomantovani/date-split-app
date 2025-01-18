@@ -14,6 +14,7 @@ class CustomField extends StatelessWidget {
     this.keyboardType,
     this.hintStyle,
     this.overrideValidator = false,
+    this.onFieldSubmitted,
   });
 
   final String? Function(String?)? validator;
@@ -27,6 +28,7 @@ class CustomField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool overrideValidator;
   final TextStyle? hintStyle;
+  final Function(String)? onFieldSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,8 @@ class CustomField extends StatelessWidget {
       onTapOutside: (_) {
         FocusScope.of(context).unfocus();
       },
+      onTap: () => FocusScope.of(context).requestFocus(),
+      onFieldSubmitted: onFieldSubmitted,
       keyboardType: keyboardType,
       obscureText: obscureText,
       readOnly: readOnly,
@@ -60,7 +64,6 @@ class CustomField extends StatelessWidget {
             color: Theme.of(context).primaryColor,
           ),
         ),
-        // overwriting the default padding helps with that puffy look
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
         filled: filled,
         fillColor: fillColour,

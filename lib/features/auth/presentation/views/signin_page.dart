@@ -1,5 +1,5 @@
 import 'package:date_split_app/features/auth/presentation/views/auth_page.dart';
-import 'package:date_split_app/features/auth/presentation/views/home_page.dart';
+import 'package:date_split_app/core/common/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,6 +25,13 @@ class _SigninPageState extends State<SigninPage> {
   final TextEditingController passwordController = TextEditingController();
   bool obscureText = true;
   bool isLoading = false;
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +60,7 @@ class _SigninPageState extends State<SigninPage> {
                 filled: true,
                 fillColour: kStandardLightGrey,
                 obscureText: obscureText,
+                onFieldSubmitted: (_) => signIn(context),
                 suffixIcon: obscureText
                     ? IconButton(
                         onPressed: () =>
@@ -85,16 +93,11 @@ class _SigninPageState extends State<SigninPage> {
                   ),
                   BlocListener<AuthBloc, AuthState>(
                     listener: (context, state) {
-                      if (state is AuthSuccess) {
+                      if (state is SignInSuccess) {
                         setState(() => isLoading = !isLoading);
                         CoreUtils.unNamedRouteNavigation(
-                            page: const MyHomePage(
-                              title: 'Home',
-                            ),
-                            context: context);
-                        CoreUtils.showSnackBar(
+                          page: const MyHomePage(),
                           context: context,
-                          message: state.message!,
                         );
                       } else if (state is AuthLoading) {
                         setState(() => isLoading = !isLoading);
@@ -114,14 +117,7 @@ class _SigninPageState extends State<SigninPage> {
                       backGroundColor: kPrimaryYellow,
                       label: 'Entrar',
                       onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          BlocProvider.of<AuthBloc>(context).add(
-                            SignInEvent(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            ),
-                          );
-                        }
+                        signIn(context);
                       },
                     ),
                   ),
@@ -132,5 +128,16 @@ class _SigninPageState extends State<SigninPage> {
         ),
       ),
     );
+  }
+
+  void signIn(BuildContext context) {
+    if (_formKey.currentState?.validate() ?? false) {
+      BlocProvider.of<AuthBloc>(context).add(
+        SignInEvent(
+          email: emailController.text,
+          password: passwordController.text,
+        ),
+      );
+    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:date_split_app/core/errors/failure.dart';
+import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:date_split_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -64,21 +65,21 @@ void main() {
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
-    test('should return void on successful sign in', () async {
+    test('should return UserModel on successful sign in', () async {
       // Arrange
       const email = 'test@example.com';
       const password = 'password123';
-      const message = 'message';
+      const userModel = UserModel.empty();
 
       when(mockAuthRepository.signIn(email: email, password: password))
-          .thenAnswer((_) async => const Right(message));
+          .thenAnswer((_) async => const Right(userModel));
 
       // Act
       final result =
           await mockAuthRepository.signIn(email: email, password: password);
 
       // Assert
-      expect(result, equals(const Right(message)));
+      expect(result, equals(const Right(userModel)));
       verify(mockAuthRepository.signIn(email: email, password: password))
           .called(1);
       verifyNoMoreInteractions(mockAuthRepository);
@@ -105,18 +106,19 @@ void main() {
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
-    test('should return void on successful reset password', () async {
+    test('should return message on successful reset password', () async {
       // Arrange
       const email = 'test@example.com';
+      const message = 'message';
 
       when(mockAuthRepository.resetPassword(email: email))
-          .thenAnswer((_) async => const Right(null));
+          .thenAnswer((_) async => const Right(message));
 
       // Act
       final result = await mockAuthRepository.resetPassword(email: email);
 
       // Assert
-      expect(result, equals(const Right(null)));
+      expect(result, equals(const Right(message)));
       verify(mockAuthRepository.resetPassword(email: email)).called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
@@ -139,18 +141,19 @@ void main() {
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
-    test('should return void on successful account deletion', () async {
+    test('should return message on successful account deletion', () async {
       // Arrange
       const uid = 'testUid123';
+      const message = 'message';
 
       when(mockAuthRepository.deleteAccount(uid: uid))
-          .thenAnswer((_) async => const Right(null));
+          .thenAnswer((_) async => const Right(message));
 
       // Act
       final result = await mockAuthRepository.deleteAccount(uid: uid);
 
       // Assert
-      expect(result, equals(const Right(null)));
+      expect(result, equals(const Right(message)));
       verify(mockAuthRepository.deleteAccount(uid: uid)).called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
