@@ -1,4 +1,4 @@
-import 'package:date_split_app/core/utils/constants.dart';
+import 'package:date_split_app/core/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class CoreUtils {
@@ -27,12 +27,13 @@ class CoreUtils {
           content: Text(
             message,
             style: TextStyle(
-              color: isFailure ? kStandardWhite : kPrimaryText,
+              color: isFailure ? Styles.kStandardWhite : Styles.kPrimaryText,
               fontWeight: FontWeight.bold,
             ),
           ),
           behavior: SnackBarBehavior.floating,
-          backgroundColor: isFailure ? kStandardDelete : kPrimaryYellow,
+          backgroundColor:
+              isFailure ? Styles.kStandardDelete : Styles.kPrimaryYellow,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

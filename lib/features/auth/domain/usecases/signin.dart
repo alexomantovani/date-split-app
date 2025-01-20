@@ -1,6 +1,5 @@
 import 'package:date_split_app/core/usecases/usecase.dart';
 import 'package:date_split_app/core/utils/typedefs.dart';
-import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:date_split_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -10,7 +9,7 @@ class SignIn extends UsecaseWithParams<void, SignInParams> {
   final AuthRepository _repository;
 
   @override
-  EitherFuture<UserModel> call(params) => _repository.signIn(
+  EitherFuture<String> call(params) => _repository.signIn(
         email: params.email,
         password: params.password,
       );

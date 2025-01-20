@@ -1,3 +1,4 @@
+import 'package:date_split_app/core/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomField extends StatelessWidget {
@@ -70,9 +71,9 @@ class CustomField extends StatelessWidget {
         suffixIcon: suffixIcon,
         hintText: hintText,
         hintStyle: hintStyle ??
-            const TextStyle(
+            Styles.bodyMedium.copyWith(
               fontSize: 16,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w300,
             ),
       ),
     );

@@ -14,19 +14,23 @@ Future<void> authInit() async {
         signIn: sl(),
         resetPassword: sl(),
         deleteAccount: sl(),
+        getUser: sl(),
       ),
     )
     ..registerLazySingleton(() => Signup(sl()))
     ..registerLazySingleton(() => SignIn(sl()))
     ..registerLazySingleton(() => ResetPassword(sl()))
     ..registerLazySingleton(() => DeleteAccount(sl()))
+    ..registerLazySingleton(() => GetUser(sl()))
     ..registerLazySingleton<AuthRepository>(
-        () => AuthRepositoryImplementation(sl()))
+        () => AuthRepositoryImplementation(sl(), sl()))
+    ..registerLazySingleton<AuthLocalDataSource>(
+        () => const AuthLocalDataSourceImpl())
     ..registerLazySingleton<AuthRemoteDataSource>(
         () => AuthRemoteDataSourceImpl(
               client: sl(),
               baseUrl: sl(),
             ))
     ..registerLazySingleton(() => http.Client())
-    ..registerLazySingleton(() => kApiBaseUrl);
+    ..registerLazySingleton(() => kLocalBaseUrl);
 }

@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:date_split_app/features/auth/domain/usecases/delete_account.dart';
+import 'package:date_split_app/features/auth/domain/usecases/get_user.dart';
 import 'package:date_split_app/features/auth/domain/usecases/reset_password.dart';
 import 'package:date_split_app/features/auth/domain/usecases/signin.dart';
 import 'package:date_split_app/features/auth/domain/usecases/signup.dart';
@@ -15,24 +16,29 @@ import 'package:date_split_app/features/auth/domain/repositories/auth_repository
 
 import 'auth_bloc_test.mocks.dart';
 
-@GenerateMocks([AuthRepository, Signup, SignIn, ResetPassword, DeleteAccount])
+@GenerateMocks(
+    [AuthRepository, Signup, SignIn, ResetPassword, DeleteAccount, GetUser])
 void main() {
   late AuthBloc authBloc;
   late Signup signUp;
   late SignIn signIn;
   late ResetPassword resetPassword;
   late DeleteAccount deleteAccount;
+  late GetUser getUser;
 
   setUp(() {
     signUp = MockSignup();
     signIn = MockSignIn();
     resetPassword = MockResetPassword();
     deleteAccount = MockDeleteAccount();
+    getUser = MockGetUser();
     authBloc = AuthBloc(
-        signup: signUp,
-        signIn: signIn,
-        resetPassword: resetPassword,
-        deleteAccount: deleteAccount);
+      signup: signUp,
+      signIn: signIn,
+      resetPassword: resetPassword,
+      deleteAccount: deleteAccount,
+      getUser: getUser,
+    );
   });
 
   tearDown(() {
@@ -94,20 +100,20 @@ void main() {
   group('SignIn', () {
     const email = 'test@example.com';
     const password = 'password123';
-    const userModel = UserModel.empty();
+    const token = 'token';
 
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, SignInSuccess] on successful sign-in',
       build: () {
         when(signIn.call(const SignInParams(email: email, password: password)))
-            .thenAnswer((_) async => const Right(userModel));
+            .thenAnswer((_) async => const Right(token));
         return authBloc;
       },
       act: (bloc) => bloc.add(const SignInEvent(
         email: email,
         password: password,
       )),
-      expect: () => [AuthLoading(), const SignInSuccess(userModel: userModel)],
+      expect: () => [AuthLoading(), const SignInSuccess(token: token)],
       verify: (_) {
         verify(signIn
                 .call(const SignInParams(email: email, password: password)))
@@ -205,6 +211,39 @@ void main() {
       expect: () => [AuthLoading(), const AuthError('Account not found')],
       verify: (_) {
         verify(deleteAccount.call(message)).called(1);
+      },
+    );
+  });
+
+  group('GetUser', () {
+    const userModel = UserModel.empty();
+
+    blocTest<AuthBloc, AuthState>(
+      'emits [AuthLoading, GetUserSuccess] on successful sign-in',
+      build: () {
+        when(getUser.call()).thenAnswer((_) async => const Right(userModel));
+        return authBloc;
+      },
+      act: (bloc) => bloc.add(const GetUserEvent()),
+      expect: () => [AuthLoading(), const GetUserSuccess(userModel: userModel)],
+      verify: (_) {
+        verify(getUser.call()).called(1);
+      },
+    );
+
+    blocTest<AuthBloc, AuthState>(
+      'emits [AuthLoading, AuthFailure] on sign-in failure',
+      build: () {
+        when(getUser.call()).thenAnswer((_) async => const Left(ServerFailure(
+              message: 'Invalid data',
+              statusCode: 500,
+            )));
+        return authBloc;
+      },
+      act: (bloc) => bloc.add(const GetUserEvent()),
+      expect: () => [AuthLoading(), const AuthError('Invalid data')],
+      verify: (_) {
+        verify(getUser.call()).called(1);
       },
     );
   });

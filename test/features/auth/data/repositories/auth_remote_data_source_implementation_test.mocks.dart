@@ -5,6 +5,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
+import 'package:date_split_app/features/auth/data/datasources/auth_local_data_source.dart'
+    as _i6;
 import 'package:date_split_app/features/auth/data/datasources/auth_remote_data_source.dart'
     as _i3;
 import 'package:date_split_app/features/auth/data/models/user_model.dart'
@@ -66,7 +68,7 @@ class MockAuthRemoteDataSource extends _i1.Mock
           as _i4.Future<String>);
 
   @override
-  _i4.Future<_i2.UserModel> signIn({
+  _i4.Future<String> signIn({
     required String? email,
     required String? password,
   }) =>
@@ -75,8 +77,8 @@ class MockAuthRemoteDataSource extends _i1.Mock
               #email: email,
               #password: password,
             }),
-            returnValue: _i4.Future<_i2.UserModel>.value(
-              _FakeUserModel_0(
+            returnValue: _i4.Future<String>.value(
+              _i5.dummyValue<String>(
                 this,
                 Invocation.method(#signIn, [], {
                   #email: email,
@@ -85,7 +87,7 @@ class MockAuthRemoteDataSource extends _i1.Mock
               ),
             ),
           )
-          as _i4.Future<_i2.UserModel>);
+          as _i4.Future<String>);
 
   @override
   _i4.Future<String> resetPassword(String? email) =>
@@ -112,4 +114,24 @@ class MockAuthRemoteDataSource extends _i1.Mock
             ),
           )
           as _i4.Future<String>);
+}
+
+/// A class which mocks [AuthLocalDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAuthLocalDataSource extends _i1.Mock
+    implements _i6.AuthLocalDataSource {
+  MockAuthLocalDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.UserModel> getUser() =>
+      (super.noSuchMethod(
+            Invocation.method(#getUser, []),
+            returnValue: _i4.Future<_i2.UserModel>.value(
+              _FakeUserModel_0(this, Invocation.method(#getUser, [])),
+            ),
+          )
+          as _i4.Future<_i2.UserModel>);
 }

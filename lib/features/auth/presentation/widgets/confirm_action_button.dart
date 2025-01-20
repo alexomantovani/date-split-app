@@ -1,6 +1,8 @@
-import 'package:date_split_app/core/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:date_split_app/core/utils/constants.dart';
+import 'package:date_split_app/core/utils/styles.dart';
 
 class ConfirmActionButton extends StatelessWidget {
   const ConfirmActionButton({
@@ -45,7 +47,7 @@ class ConfirmActionButton extends StatelessWidget {
             ? const SizedBox(
                 height: 24.0,
                 width: 24.0,
-                child: CircularProgressIndicator(color: kPrimaryText),
+                child: CircularProgressIndicator(color: Styles.kPrimaryText),
               )
             : type == ButtonType.add
                 ? Row(
@@ -55,20 +57,18 @@ class ConfirmActionButton extends StatelessWidget {
                       const SizedBox(width: 8.0),
                       Text(
                         label,
-                        style: TextStyle(
-                          color: labelColor ?? kPrimaryText,
+                        style: Styles.bodyLarge.copyWith(
+                          color: labelColor ?? Styles.kPrimaryText,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   )
                 : Text(
                     label,
-                    style: TextStyle(
-                      color: labelColor ?? kPrimaryText,
+                    style: Styles.bodyLarge.copyWith(
+                      color: labelColor ?? Styles.kPrimaryText,
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
       ),
