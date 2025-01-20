@@ -1,12 +1,13 @@
-import 'package:date_split_app/features/auth/presentation/views/auth_page.dart';
-import 'package:date_split_app/core/common/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:date_split_app/core/common/views/home_page.dart';
 import 'package:date_split_app/core/common/widgets/custom_field.dart';
 import 'package:date_split_app/core/utils/constants.dart';
 import 'package:date_split_app/core/utils/core_utils.dart';
+import 'package:date_split_app/core/utils/styles.dart';
 import 'package:date_split_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:date_split_app/features/auth/presentation/views/auth_page.dart';
 import 'package:date_split_app/features/auth/presentation/widgets/auth_background.dart';
 import 'package:date_split_app/features/auth/presentation/widgets/confirm_action_button.dart';
 
@@ -48,7 +49,7 @@ class _SigninPageState extends State<SigninPage> {
                 controller: emailController,
                 hintText: 'Email',
                 filled: true,
-                fillColour: kStandardLightGrey,
+                fillColour: Styles.kStandardLightGrey,
                 suffixIcon: const Icon(
                   Icons.email_outlined,
                 ),
@@ -58,7 +59,7 @@ class _SigninPageState extends State<SigninPage> {
                 controller: passwordController,
                 hintText: 'Password',
                 filled: true,
-                fillColour: kStandardLightGrey,
+                fillColour: Styles.kStandardLightGrey,
                 obscureText: obscureText,
                 onFieldSubmitted: (_) => signIn(context),
                 suffixIcon: obscureText
@@ -83,9 +84,9 @@ class _SigninPageState extends State<SigninPage> {
                   ConfirmActionButton(
                     padding: EdgeInsets.zero,
                     fixedSize: true,
-                    backGroundColor: kStandardDelete,
+                    backGroundColor: Styles.kStandardDelete,
                     label: 'Voltar',
-                    labelColor: kStandardWhite,
+                    labelColor: Styles.kStandardWhite,
                     onPressed: () => widget.isAuthPage
                         ? Navigator.pop(context)
                         : CoreUtils.unNamedRouteNavigation(
@@ -114,7 +115,7 @@ class _SigninPageState extends State<SigninPage> {
                       isLoading: isLoading,
                       padding: EdgeInsets.zero,
                       fixedSize: true,
-                      backGroundColor: kPrimaryYellow,
+                      backGroundColor: Styles.kPrimaryYellow,
                       label: 'Entrar',
                       onPressed: () {
                         signIn(context);

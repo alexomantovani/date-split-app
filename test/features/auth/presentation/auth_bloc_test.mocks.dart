@@ -13,6 +13,8 @@ import 'package:date_split_app/features/auth/domain/repositories/auth_repository
     as _i3;
 import 'package:date_split_app/features/auth/domain/usecases/delete_account.dart'
     as _i10;
+import 'package:date_split_app/features/auth/domain/usecases/get_user.dart'
+    as _i11;
 import 'package:date_split_app/features/auth/domain/usecases/reset_password.dart'
     as _i9;
 import 'package:date_split_app/features/auth/domain/usecases/signin.dart'
@@ -74,7 +76,7 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
           as _i4.Future<_i2.Either<_i5.Failure, String>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>> signIn({
+  _i4.Future<_i2.Either<_i5.Failure, String>> signIn({
     required String? email,
     required String? password,
   }) =>
@@ -83,18 +85,17 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
               #email: email,
               #password: password,
             }),
-            returnValue:
-                _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>.value(
-                  _FakeEither_0<_i5.Failure, _i6.UserModel>(
-                    this,
-                    Invocation.method(#signIn, [], {
-                      #email: email,
-                      #password: password,
-                    }),
-                  ),
-                ),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+              _FakeEither_0<_i5.Failure, String>(
+                this,
+                Invocation.method(#signIn, [], {
+                  #email: email,
+                  #password: password,
+                }),
+              ),
+            ),
           )
-          as _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>);
+          as _i4.Future<_i2.Either<_i5.Failure, String>>);
 
   @override
   _i4.Future<_i2.Either<_i5.Failure, String>> resetPassword({
@@ -125,6 +126,20 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
             ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, String>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>> getUser() =>
+      (super.noSuchMethod(
+            Invocation.method(#getUser, []),
+            returnValue:
+                _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>.value(
+                  _FakeEither_0<_i5.Failure, _i6.UserModel>(
+                    this,
+                    Invocation.method(#getUser, []),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>);
 }
 
 /// A class which mocks [Signup].
@@ -158,20 +173,17 @@ class MockSignIn extends _i1.Mock implements _i8.SignIn {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>> call(
-    _i8.SignInParams? params,
-  ) =>
+  _i4.Future<_i2.Either<_i5.Failure, String>> call(_i8.SignInParams? params) =>
       (super.noSuchMethod(
             Invocation.method(#call, [params]),
-            returnValue:
-                _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>.value(
-                  _FakeEither_0<_i5.Failure, _i6.UserModel>(
-                    this,
-                    Invocation.method(#call, [params]),
-                  ),
-                ),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+              _FakeEither_0<_i5.Failure, String>(
+                this,
+                Invocation.method(#call, [params]),
+              ),
+            ),
           )
-          as _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>);
+          as _i4.Future<_i2.Either<_i5.Failure, String>>);
 }
 
 /// A class which mocks [ResetPassword].
@@ -216,4 +228,27 @@ class MockDeleteAccount extends _i1.Mock implements _i10.DeleteAccount {
             ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, String>>);
+}
+
+/// A class which mocks [GetUser].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetUser extends _i1.Mock implements _i11.GetUser {
+  MockGetUser() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>> call() =>
+      (super.noSuchMethod(
+            Invocation.method(#call, []),
+            returnValue:
+                _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>.value(
+                  _FakeEither_0<_i5.Failure, _i6.UserModel>(
+                    this,
+                    Invocation.method(#call, []),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>);
 }

@@ -1,7 +1,11 @@
+import 'package:date_split_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:flutter/material.dart';
+
 import 'package:date_split_app/core/utils/constants.dart';
+import 'package:date_split_app/core/utils/styles.dart';
 import 'package:date_split_app/features/auth/presentation/widgets/confirm_action_button.dart';
 import 'package:date_split_app/features/auth/presentation/widgets/identification_card.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -18,6 +22,7 @@ class _AccountPageState extends State<AccountPage>
   void initState() {
     super.initState();
     _tabControler = TabController(length: 2, vsync: this);
+    BlocProvider.of<AuthBloc>(context).add(const GetUserEvent());
   }
 
   @override
@@ -36,7 +41,7 @@ class _AccountPageState extends State<AccountPage>
           ConfirmActionButton(
             padding: const EdgeInsets.all(12.0),
             type: ButtonType.add,
-            backGroundColor: kPrimaryBlue,
+            backGroundColor: Styles.kPrimaryBlue,
             label: 'Novo Role',
             onPressed: () {},
           ),
@@ -44,7 +49,7 @@ class _AccountPageState extends State<AccountPage>
             margin: const EdgeInsets.all(12.0),
             padding: const EdgeInsets.all(12.0),
             decoration: const BoxDecoration(
-              color: kStandardWhite,
+              color: Styles.kStandardWhite,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12.0),
                 topRight: Radius.circular(12.0),
@@ -55,8 +60,8 @@ class _AccountPageState extends State<AccountPage>
                 TabBar(
                   controller: _tabControler,
                   dividerColor: Colors.transparent,
-                  unselectedLabelColor: kDescriptionText,
-                  labelColor: kPrimaryText,
+                  unselectedLabelColor: Styles.kDescriptionText,
+                  labelColor: Styles.kPrimaryText,
                   labelStyle: TextTheme.of(context).titleLarge,
                   tabs: const [
                     Text('Amigos'),

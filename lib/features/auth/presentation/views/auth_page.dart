@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:date_split_app/core/utils/constants.dart';
 import 'package:date_split_app/core/utils/core_utils.dart';
+import 'package:date_split_app/core/utils/styles.dart';
 import 'package:date_split_app/features/auth/presentation/views/signin_page.dart';
 import 'package:date_split_app/features/auth/presentation/views/signup_page.dart';
 import 'package:date_split_app/features/auth/presentation/widgets/auth_background.dart';
@@ -18,7 +19,7 @@ class AuthPage extends StatelessWidget {
         children: <Widget>[
           Image.asset(kAuthHouseImage),
           ConfirmActionButton(
-            backGroundColor: kPrimaryYellow,
+            backGroundColor: Styles.kPrimaryYellow,
             label: 'Cadastrar',
             onPressed: () => CoreUtils.unNamedRouteNavigation(
               page: const SignupPage(),

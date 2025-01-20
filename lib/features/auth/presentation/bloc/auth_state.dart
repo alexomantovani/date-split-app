@@ -21,12 +21,12 @@ class AuthSuccess extends AuthState {
 }
 
 class SignInSuccess extends AuthState {
-  final UserModel userModel;
+  final String? token;
 
-  const SignInSuccess({required this.userModel});
+  const SignInSuccess({required this.token});
 
   @override
-  List<Object?> get props => [userModel];
+  List<Object?> get props => [token];
 }
 
 class AuthError extends AuthState {
@@ -36,4 +36,13 @@ class AuthError extends AuthState {
 
   @override
   List<Object?> get props => [message];
+}
+
+class GetUserSuccess extends AuthState {
+  final UserModel userModel;
+
+  const GetUserSuccess({required this.userModel});
+
+  @override
+  List<Object?> get props => [userModel];
 }

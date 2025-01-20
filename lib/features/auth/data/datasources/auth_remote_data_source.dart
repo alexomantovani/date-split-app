@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:date_split_app/core/errors/exception.dart';
+import 'package:date_split_app/core/services/local_preferences.dart';
 import 'package:date_split_app/core/utils/typedefs.dart';
-import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 abstract class AuthRemoteDataSource {
@@ -11,7 +11,7 @@ abstract class AuthRemoteDataSource {
     required String displayName,
   });
 
-  Future<UserModel> signIn({
+  Future<String> signIn({
     required String email,
     required String password,
   });
@@ -62,7 +62,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> signIn({
+  Future<String> signIn({
     required String email,
     required String password,
   }) async {
@@ -76,8 +76,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     if (response.statusCode == 200) {
-      final DataMap responseData = jsonDecode(response.body);
-      return UserModel.fromJson(responseData);
+      final responseData = jsonDecode(response.body);
+      final String token = responseData['token'];
+
+      if (token != '') {
+        LocalPreferences.setToken(token: token);
+      }
+      return token;
     } else {
       final errorData = jsonDecode(response.body);
       throw ServerException(

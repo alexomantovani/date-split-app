@@ -65,21 +65,21 @@ void main() {
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
-    test('should return UserModel on successful sign in', () async {
+    test('should return Token on successful sign in', () async {
       // Arrange
       const email = 'test@example.com';
       const password = 'password123';
-      const userModel = UserModel.empty();
+      const token = 'token';
 
       when(mockAuthRepository.signIn(email: email, password: password))
-          .thenAnswer((_) async => const Right(userModel));
+          .thenAnswer((_) async => const Right(token));
 
       // Act
       final result =
           await mockAuthRepository.signIn(email: email, password: password);
 
       // Assert
-      expect(result, equals(const Right(userModel)));
+      expect(result, equals(const Right(token)));
       verify(mockAuthRepository.signIn(email: email, password: password))
           .called(1);
       verifyNoMoreInteractions(mockAuthRepository);
@@ -103,6 +103,37 @@ void main() {
       expect(result, equals(const Left(failure)));
       verify(mockAuthRepository.signIn(email: email, password: password))
           .called(1);
+      verifyNoMoreInteractions(mockAuthRepository);
+    });
+    test('should return UserModel on successful getUser', () async {
+      // Arrange
+      const userModel = UserModel.empty();
+
+      when(mockAuthRepository.getUser())
+          .thenAnswer((_) async => const Right(userModel));
+
+      // Act
+      final result = await mockAuthRepository.getUser();
+
+      // Assert
+      expect(result, equals(const Right(userModel)));
+      verify(mockAuthRepository.getUser()).called(1);
+      verifyNoMoreInteractions(mockAuthRepository);
+    });
+
+    test('should return Failure on getUser failure', () async {
+      // Arrange
+      const failure = ServerFailure(message: 'Invalid data', statusCode: 500);
+
+      when(mockAuthRepository.getUser())
+          .thenAnswer((_) async => const Left(failure));
+
+      // Act
+      final result = await mockAuthRepository.getUser();
+
+      // Assert
+      expect(result, equals(const Left(failure)));
+      verify(mockAuthRepository.getUser()).called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
 

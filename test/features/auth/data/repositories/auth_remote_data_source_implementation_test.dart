@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:date_split_app/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -11,14 +12,17 @@ import 'package:date_split_app/features/auth/data/repositories/auth_repository_i
 
 import 'auth_remote_data_source_implementation_test.mocks.dart';
 
-@GenerateMocks([AuthRemoteDataSource])
+@GenerateMocks([AuthRemoteDataSource, AuthLocalDataSource])
 void main() {
   late MockAuthRemoteDataSource mockRemoteDataSource;
+  late MockAuthLocalDataSource mockLocalDataSource;
   late AuthRepositoryImplementation repository;
 
   setUp(() {
     mockRemoteDataSource = MockAuthRemoteDataSource();
-    repository = AuthRepositoryImplementation(mockRemoteDataSource);
+    mockLocalDataSource = MockAuthLocalDataSource();
+    repository =
+        AuthRepositoryImplementation(mockRemoteDataSource, mockLocalDataSource);
   });
 
   group('signUp', () {
@@ -98,12 +102,12 @@ void main() {
   group('signIn', () {
     const email = 'test@example.com';
     const password = 'password123';
-    const userModel = UserModel.empty();
+    const token = 'token';
 
-    test('should return UserModel on successful sign in', () async {
+    test('should return Token on successful sign in', () async {
       // Arrange
       when(mockRemoteDataSource.signIn(email: email, password: password))
-          .thenAnswer((_) async => userModel);
+          .thenAnswer((_) async => token);
 
       // Act
       final result = await repository.signIn(
@@ -112,7 +116,7 @@ void main() {
       );
 
       // Assert
-      expect(result, equals(const Right(userModel)));
+      expect(result, equals(const Right(token)));
       verify(mockRemoteDataSource.signIn(email: email, password: password))
           .called(1);
     });
@@ -201,6 +205,38 @@ void main() {
           equals(const Left(
               ServerFailure(message: 'Account not found', statusCode: 404))));
       verify(mockRemoteDataSource.deleteAccount(uid)).called(1);
+    });
+  });
+
+  group('getUser', () {
+    const userModel = UserModel.empty();
+
+    test('should return UserModel on successful sign in', () async {
+      // Arrange
+      when(mockLocalDataSource.getUser()).thenAnswer((_) async => userModel);
+
+      // Act
+      final result = await repository.getUser();
+
+      // Assert
+      expect(result, equals(const Right(userModel)));
+      verify(mockLocalDataSource.getUser()).called(1);
+    });
+
+    test('should return ServerFailure on server exception', () async {
+      // Arrange
+      when(mockLocalDataSource.getUser()).thenThrow(
+          const ServerException(message: 'Invalid data', statusCode: 500));
+
+      // Act
+      final result = await repository.getUser();
+
+      // Assert
+      expect(
+          result,
+          equals(const Left(
+              ServerFailure(message: 'Invalid data', statusCode: 500))));
+      verify(mockLocalDataSource.getUser()).called(1);
     });
   });
 }

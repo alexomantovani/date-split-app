@@ -66,7 +66,7 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
           as _i4.Future<_i2.Either<_i5.Failure, String>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>> signIn({
+  _i4.Future<_i2.Either<_i5.Failure, String>> signIn({
     required String? email,
     required String? password,
   }) =>
@@ -75,18 +75,17 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
               #email: email,
               #password: password,
             }),
-            returnValue:
-                _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>.value(
-                  _FakeEither_0<_i5.Failure, _i6.UserModel>(
-                    this,
-                    Invocation.method(#signIn, [], {
-                      #email: email,
-                      #password: password,
-                    }),
-                  ),
-                ),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+              _FakeEither_0<_i5.Failure, String>(
+                this,
+                Invocation.method(#signIn, [], {
+                  #email: email,
+                  #password: password,
+                }),
+              ),
+            ),
           )
-          as _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>);
+          as _i4.Future<_i2.Either<_i5.Failure, String>>);
 
   @override
   _i4.Future<_i2.Either<_i5.Failure, String>> resetPassword({
@@ -117,4 +116,18 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
             ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, String>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>> getUser() =>
+      (super.noSuchMethod(
+            Invocation.method(#getUser, []),
+            returnValue:
+                _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>.value(
+                  _FakeEither_0<_i5.Failure, _i6.UserModel>(
+                    this,
+                    Invocation.method(#getUser, []),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>);
 }
