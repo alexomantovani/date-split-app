@@ -1,8 +1,10 @@
-import 'package:date_split_app/core/services/persistent_home.dart';
-import 'package:date_split_app/core/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:date_split_app/core/services/persistent_home.dart';
+import 'package:date_split_app/core/utils/constants.dart';
+import 'package:date_split_app/core/utils/styles.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -15,12 +17,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kPrimaryPeach,
+      backgroundColor: Styles.kPrimaryPeach,
       appBar: AppBar(
         toolbarHeight: 0,
-        backgroundColor: kPrimaryPeach,
+        backgroundColor: Styles.kPrimaryPeach,
         systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: kPrimaryPeach,
+          statusBarColor: Styles.kPrimaryPeach,
           statusBarIconBrightness: Brightness.dark,
         ),
       ),
@@ -35,8 +37,15 @@ class _MyHomePageState extends State<MyHomePage> {
           elevation: 10.0,
           showUnselectedLabels: true,
           showSelectedLabels: true,
-          unselectedItemColor: kDescriptionText,
-          selectedItemColor: kPrimaryBlueDark,
+          selectedItemColor: Styles.kPrimaryBlueDark,
+          unselectedLabelStyle: Styles.bodySmall.copyWith(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
+          selectedLabelStyle: Styles.bodySmall.copyWith(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
           currentIndex: PersistentHome.currentIndex!,
           onTap: (value) {
             PersistentHome.setCurrentIndex(value);

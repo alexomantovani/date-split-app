@@ -1,6 +1,8 @@
-import 'package:date_split_app/core/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:date_split_app/core/utils/constants.dart';
+import 'package:date_split_app/core/utils/styles.dart';
 
 class AuthBackground extends StatelessWidget {
   const AuthBackground({super.key, required this.body});
@@ -13,10 +15,10 @@ class AuthBackground extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: kPrimaryBlue,
+        backgroundColor: Styles.kPrimaryBlue,
         toolbarHeight: 0,
         systemOverlayStyle:
-            const SystemUiOverlayStyle(statusBarColor: kPrimaryBlue),
+            const SystemUiOverlayStyle(statusBarColor: Styles.kPrimaryBlue),
       ),
       body: Container(
         decoration: const BoxDecoration(

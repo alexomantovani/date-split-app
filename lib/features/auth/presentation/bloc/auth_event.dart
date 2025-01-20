@@ -52,3 +52,10 @@ class DeleteAccountEvent extends AuthEvent {
   @override
   List<Object?> get props => [uid];
 }
+
+class GetUserEvent extends AuthEvent {
+  const GetUserEvent();
+
+  @override
+  List<Object?> get props => [];
+}

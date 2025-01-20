@@ -9,7 +9,7 @@ class IdentificationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        if (state is SignInSuccess) {
+        if (state is GetUserSuccess) {
           return Row(
             children: [
               const Icon(Icons.person, size: 80),
