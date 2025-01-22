@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:date_split_app/core/services/persistent_home.dart';
-import 'package:date_split_app/core/utils/constants.dart';
+import 'package:date_split_app/core/utils/assets.dart';
 import 'package:date_split_app/core/utils/styles.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -54,28 +54,28 @@ class _MyHomePageState extends State<MyHomePage> {
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(kIcUser),
+              icon: SvgPicture.asset(Assets.kIcUser),
               label: 'Conta',
-              activeIcon: SvgPicture.asset(kIcUserSelected),
+              activeIcon: SvgPicture.asset(Assets.kIcUserSelected),
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(kIcPostIt),
+              icon: SvgPicture.asset(Assets.kIcPostIt),
               label: 'Nota',
-              activeIcon: SvgPicture.asset(kIcPostItSelected),
+              activeIcon: SvgPicture.asset(Assets.kIcPostItSelected),
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(kIcAdd),
+              icon: SvgPicture.asset(Assets.kIcAdd),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(kIcCalendar),
+              icon: SvgPicture.asset(Assets.kIcCalendar),
               label: 'Atividade',
-              activeIcon: SvgPicture.asset(kIcCalendarSelected),
+              activeIcon: SvgPicture.asset(Assets.kIcCalendarSelected),
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(kIcHouse),
+              icon: SvgPicture.asset(Assets.kIcHouse),
               label: 'Rolês',
-              activeIcon: SvgPicture.asset(kIcHouseSelected),
+              activeIcon: SvgPicture.asset(Assets.kIcHouseSelected),
             ),
           ],
         ),

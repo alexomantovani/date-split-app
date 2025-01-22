@@ -1,11 +1,13 @@
-import 'package:date_split_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
-import 'package:date_split_app/core/utils/constants.dart';
+import 'package:date_split_app/core/common/widgets/custom_field.dart';
+import 'package:date_split_app/core/extensions/context_extension.dart';
+import 'package:date_split_app/core/utils/assets.dart';
 import 'package:date_split_app/core/utils/styles.dart';
-import 'package:date_split_app/features/auth/presentation/widgets/confirm_action_button.dart';
-import 'package:date_split_app/features/auth/presentation/widgets/identification_card.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:date_split_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:date_split_app/core/common/widgets/confirm_action_button.dart';
+import 'package:date_split_app/core/common/features/account/presentation/widgets/identification_card.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -17,17 +19,27 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabControler;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController friendContoller = TextEditingController();
+  late TextTheme theme;
 
   @override
   void initState() {
     super.initState();
     _tabControler = TabController(length: 2, vsync: this);
-    BlocProvider.of<AuthBloc>(context).add(const GetUserEvent());
+    (context).blocProvider<AuthBloc>().add(const GetUserEvent());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    theme = context.textTheme;
   }
 
   @override
   void dispose() {
     _tabControler.dispose();
+    friendContoller.dispose();
     super.dispose();
   }
 
@@ -62,30 +74,54 @@ class _AccountPageState extends State<AccountPage>
                   dividerColor: Colors.transparent,
                   unselectedLabelColor: Styles.kDescriptionText,
                   labelColor: Styles.kPrimaryText,
-                  labelStyle: TextTheme.of(context).titleLarge,
+                  labelStyle: theme.titleLarge,
+                  indicatorColor: Styles.kPrimaryBlue,
                   tabs: const [
                     Text('Amigos'),
                     Text('Rolês'),
                   ],
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height,
+                  height: context.height,
                   child: TabBarView(
                     controller: _tabControler,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 120.0),
+                        padding: const EdgeInsets.only(top: 18.0),
                         child: Column(
                           children: [
-                            Image.asset(kMeditating),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Form(
+                                    key: _formKey,
+                                    child: CustomField(
+                                      controller: friendContoller,
+                                      filled: true,
+                                      fillColour: Styles.kBgField,
+                                      enabledBorderColor:
+                                          Styles.kDescriptionText,
+                                      prefixIcon: const Icon(Icons.search),
+                                      hintText: 'Precure Amigos',
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10.0),
+                                SvgPicture.asset(Assets.kIcAddUser),
+                                const SizedBox(width: 10.0),
+                                SvgPicture.asset(Assets.kIcFilterList),
+                              ],
+                            ),
+                            const SizedBox(height: 20.0),
+                            Image.asset(Assets.kMeditating),
                             Text(
                               'Sem amigos por aqui',
-                              style: TextTheme.of(context).titleLarge,
+                              style: theme.titleLarge,
                               textAlign: TextAlign.center,
                             ),
                             Text(
                               'Convide amigos para desbloquear funcionalidades',
-                              style: TextTheme.of(context).bodyMedium,
+                              style: theme.bodyMedium,
                               textAlign: TextAlign.center,
                             ),
                           ],
@@ -95,15 +131,15 @@ class _AccountPageState extends State<AccountPage>
                         padding: const EdgeInsets.only(top: 120.0),
                         child: Column(
                           children: [
-                            Image.asset(kPlant),
+                            Image.asset(Assets.kPlant),
                             Text(
                               'Sem rolês por aqui',
-                              style: TextTheme.of(context).titleLarge,
+                              style: theme.titleLarge,
                               textAlign: TextAlign.center,
                             ),
                             Text(
                               'Convide rolês para desbloquear funcionalidades',
-                              style: TextTheme.of(context).bodyMedium,
+                              style: theme.bodyMedium,
                               textAlign: TextAlign.center,
                             ),
                           ],

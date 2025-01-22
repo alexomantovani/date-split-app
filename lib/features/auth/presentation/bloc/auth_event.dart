@@ -35,6 +35,21 @@ class SignInEvent extends AuthEvent {
   List<Object?> get props => [email, password];
 }
 
+class UpdateUserEvent extends AuthEvent {
+  final String? token;
+  final String? avatar;
+  final String? nickName;
+
+  const UpdateUserEvent({
+    required this.token,
+    required this.avatar,
+    required this.nickName,
+  });
+
+  @override
+  List<Object?> get props => [token, avatar, nickName];
+}
+
 class ResetPasswordEvent extends AuthEvent {
   final String email;
 

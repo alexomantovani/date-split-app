@@ -11,6 +11,11 @@ abstract class AuthRepository {
   });
   EitherFuture<String> signIn(
       {required String email, required String password});
+  EitherFuture<String> updateUser({
+    required String? token,
+    required String? avatar,
+    required String? nickName,
+  });
   EitherFuture<String> resetPassword({required String email});
   EitherFuture<String> deleteAccount({required String uid});
   EitherFuture<UserModel> getUser();

@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+
 import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:date_split_app/features/auth/domain/usecases/delete_account.dart';
 import 'package:date_split_app/features/auth/domain/usecases/get_user.dart';
 import 'package:date_split_app/features/auth/domain/usecases/reset_password.dart';
 import 'package:date_split_app/features/auth/domain/usecases/signin.dart';
 import 'package:date_split_app/features/auth/domain/usecases/signup.dart';
-import 'package:equatable/equatable.dart';
+import 'package:date_split_app/features/auth/domain/usecases/update_user.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -17,17 +19,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required ResetPassword resetPassword,
     required DeleteAccount deleteAccount,
     required GetUser getUser,
+    required UpdateUser updateUser,
   })  : _signUp = signup,
         _signIn = signIn,
         _resetPassword = resetPassword,
         _deleteAccount = deleteAccount,
         _getUser = getUser,
+        _updateUser = updateUser,
         super(AuthInitial()) {
     on<SignUpEvent>(_onSignUp);
     on<SignInEvent>(_onSignIn);
     on<ResetPasswordEvent>(_onResetPassword);
     on<DeleteAccountEvent>(_onDeleteAccount);
     on<GetUserEvent>(_onGetUser);
+    on<UpdateUserEvent>(_onUpdateUser);
   }
 
   final Signup _signUp;
@@ -35,6 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final ResetPassword _resetPassword;
   final DeleteAccount _deleteAccount;
   final GetUser _getUser;
+  final UpdateUser _updateUser;
 
   Future<void> _onSignUp(SignUpEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
@@ -59,6 +65,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (token) => emit(SignInSuccess(token: token)),
+    );
+  }
+
+  Future<void> _onUpdateUser(
+      UpdateUserEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    final result = await _updateUser.call(UpdateUserParams(
+      token: event.token,
+      avatar: event.avatar,
+      nickName: event.nickName,
+    ));
+    result.fold(
+      (failure) => emit(AuthError(failure.message)),
+      (newToken) => emit(
+        UpdateUserSuccess(newToken: newToken),
+      ),
     );
   }
 

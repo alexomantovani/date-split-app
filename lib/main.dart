@@ -1,3 +1,5 @@
+import 'package:date_split_app/core/app/restart_app.dart';
+import 'package:date_split_app/core/common/features/account/presentation/bloc/configuration_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -5,12 +7,11 @@ import 'package:date_split_app/core/services/app_service.dart';
 import 'package:date_split_app/core/services/injection_container.dart';
 import 'package:date_split_app/core/utils/styles.dart';
 import 'package:date_split_app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:date_split_app/features/auth/presentation/views/auth_page.dart';
 
 void main() async {
   await init();
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(const RestartApp(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -18,8 +19,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<AuthBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (context) => sl<AuthBloc>(),
+        ),
+        BlocProvider<ConfigurationBloc>(
+          create: (context) => sl<ConfigurationBloc>(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
@@ -27,28 +35,12 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Styles.kPrimaryBlue),
           useMaterial3: true,
           textTheme: TextTheme(
-            titleLarge: Styles.bodyLarge,
+            titleLarge: Styles.titleLarge,
+            titleMedium: Styles.titleMedium,
             bodyMedium: Styles.bodyMedium,
           ),
         ),
-        home: FutureBuilder<Widget>(
-          future: AppService.getInitialPage(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Material(
-                child: Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-              );
-            } else if (snapshot.hasData) {
-              return snapshot.data!;
-            } else {
-              return const AuthPage();
-            }
-          },
-        ),
+        home: AppService.homeBuilder(),
       ),
     );
   }

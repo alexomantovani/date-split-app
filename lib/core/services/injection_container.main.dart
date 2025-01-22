@@ -4,6 +4,7 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   await authInit();
+  await avatarInit();
 }
 
 Future<void> authInit() async {
@@ -15,10 +16,12 @@ Future<void> authInit() async {
         resetPassword: sl(),
         deleteAccount: sl(),
         getUser: sl(),
+        updateUser: sl(),
       ),
     )
     ..registerLazySingleton(() => Signup(sl()))
     ..registerLazySingleton(() => SignIn(sl()))
+    ..registerLazySingleton(() => UpdateUser(sl()))
     ..registerLazySingleton(() => ResetPassword(sl()))
     ..registerLazySingleton(() => DeleteAccount(sl()))
     ..registerLazySingleton(() => GetUser(sl()))
@@ -32,5 +35,14 @@ Future<void> authInit() async {
               baseUrl: sl(),
             ))
     ..registerLazySingleton(() => http.Client())
-    ..registerLazySingleton(() => kLocalBaseUrl);
+    ..registerLazySingleton(() => Environments.dev);
+}
+
+Future<void> avatarInit() async {
+  sl.registerFactory(
+    () => ConfigurationBloc(
+      avatar: sl<String>(),
+      nickName: sl<String>(),
+    ),
+  );
 }

@@ -1,11 +1,12 @@
 import 'package:date_split_app/features/auth/domain/entities/user.dart';
-import 'package:equatable/equatable.dart';
 
-class UserModel extends Equatable {
+class UserModel extends User {
   const UserModel({
-    required this.uid,
-    required this.email,
-    required this.displayName,
+    required super.uid,
+    required super.email,
+    required super.displayName,
+    required super.avatar,
+    required super.nickName,
   });
 
   const UserModel.empty()
@@ -13,18 +14,16 @@ class UserModel extends Equatable {
           uid: '',
           email: '',
           displayName: '',
+          avatar: null,
+          nickName: null,
         );
 
-  final String uid;
-  final String email;
-  final String displayName;
-
   @override
-  List<Object?> get props => [uid, email, displayName];
+  List<Object?> get props => [uid, email, displayName, avatar, nickName];
 
   @override
   String toString() {
-    return 'UserModel{uid: $uid, email: $email, displayName: $displayName}';
+    return 'UserModel{uid: $uid, email: $email, displayName: $displayName, avatar: $avatar, nickName: $nickName}';
   }
 
   // Métodos para conversão da camada de dados:
@@ -33,6 +32,8 @@ class UserModel extends Equatable {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
+      avatar: user.avatar,
+      nickName: user.nickName,
     );
   }
 
@@ -41,6 +42,8 @@ class UserModel extends Equatable {
       uid: uid,
       email: email,
       displayName: displayName,
+      avatar: avatar,
+      nickName: nickName,
     );
   }
 
@@ -50,6 +53,8 @@ class UserModel extends Equatable {
       uid: json['uid'] as String,
       email: json['email'] as String,
       displayName: json['displayName'] as String,
+      avatar: json['avatar'],
+      nickName: json['nickName'],
     );
   }
 
@@ -58,6 +63,8 @@ class UserModel extends Equatable {
       'uid': uid,
       'email': email,
       'displayName': displayName,
+      'avatar': avatar,
+      'nickName': nickName,
     };
   }
 }

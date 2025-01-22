@@ -6,6 +6,7 @@ import 'package:date_split_app/features/auth/domain/usecases/get_user.dart';
 import 'package:date_split_app/features/auth/domain/usecases/reset_password.dart';
 import 'package:date_split_app/features/auth/domain/usecases/signin.dart';
 import 'package:date_split_app/features/auth/domain/usecases/signup.dart';
+import 'package:date_split_app/features/auth/domain/usecases/update_user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -16,8 +17,15 @@ import 'package:date_split_app/features/auth/domain/repositories/auth_repository
 
 import 'auth_bloc_test.mocks.dart';
 
-@GenerateMocks(
-    [AuthRepository, Signup, SignIn, ResetPassword, DeleteAccount, GetUser])
+@GenerateMocks([
+  AuthRepository,
+  Signup,
+  SignIn,
+  ResetPassword,
+  DeleteAccount,
+  GetUser,
+  UpdateUser
+])
 void main() {
   late AuthBloc authBloc;
   late Signup signUp;
@@ -25,10 +33,12 @@ void main() {
   late ResetPassword resetPassword;
   late DeleteAccount deleteAccount;
   late GetUser getUser;
+  late UpdateUser updateUser;
 
   setUp(() {
     signUp = MockSignup();
     signIn = MockSignIn();
+    updateUser = MockUpdateUser();
     resetPassword = MockResetPassword();
     deleteAccount = MockDeleteAccount();
     getUser = MockGetUser();
@@ -38,6 +48,7 @@ void main() {
       resetPassword: resetPassword,
       deleteAccount: deleteAccount,
       getUser: getUser,
+      updateUser: updateUser,
     );
   });
 
@@ -140,6 +151,88 @@ void main() {
         verify(signIn
                 .call(const SignInParams(email: email, password: password)))
             .called(1);
+      },
+    );
+  });
+  group('updateUser', () {
+    const token = 'token';
+    const avatar = 'avatar';
+    const nickName = 'nickName';
+    const newToken = 'newToken';
+
+    blocTest<AuthBloc, AuthState>(
+      'emits [AuthLoading, UpdateUserSuccess] on successful sign-in',
+      build: () {
+        when(
+          updateUser.call(
+            const UpdateUserParams(
+              token: token,
+              avatar: avatar,
+              nickName: nickName,
+            ),
+          ),
+        ).thenAnswer((_) async => const Right(newToken));
+        return authBloc;
+      },
+      act: (bloc) => bloc.add(
+        const UpdateUserEvent(
+          token: token,
+          avatar: avatar,
+          nickName: nickName,
+        ),
+      ),
+      expect: () =>
+          [AuthLoading(), const UpdateUserSuccess(newToken: newToken)],
+      verify: (_) {
+        verify(
+          updateUser.call(
+            (const UpdateUserParams(
+              token: token,
+              avatar: avatar,
+              nickName: nickName,
+            )),
+          ),
+        ).called(1);
+      },
+    );
+
+    blocTest<AuthBloc, AuthState>(
+      'emits [AuthLoading, AuthFailure] on sign-in failure',
+      build: () {
+        when(
+          updateUser.call(
+            (const UpdateUserParams(
+              token: token,
+              avatar: avatar,
+              nickName: nickName,
+            )),
+          ),
+        ).thenAnswer(
+          (_) async => const Left(
+            ServerFailure(
+              message: 'Invalid credentials',
+              statusCode: 401,
+            ),
+          ),
+        );
+        return authBloc;
+      },
+      act: (bloc) => bloc.add(const UpdateUserEvent(
+        token: token,
+        avatar: avatar,
+        nickName: nickName,
+      )),
+      expect: () => [AuthLoading(), const AuthError('Invalid credentials')],
+      verify: (_) {
+        verify(
+          updateUser.call(
+            (const UpdateUserParams(
+              token: token,
+              avatar: avatar,
+              nickName: nickName,
+            )),
+          ),
+        ).called(1);
       },
     );
   });
