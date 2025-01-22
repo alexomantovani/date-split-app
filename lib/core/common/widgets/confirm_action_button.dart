@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:date_split_app/core/utils/constants.dart';
+import 'package:date_split_app/core/utils/assets.dart';
 import 'package:date_split_app/core/utils/styles.dart';
 
 class ConfirmActionButton extends StatelessWidget {
@@ -53,11 +53,11 @@ class ConfirmActionButton extends StatelessWidget {
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(kIcAddWhite),
+                      SvgPicture.asset(Assets.kIcAddWhite),
                       const SizedBox(width: 8.0),
                       Text(
                         label,
-                        style: Styles.bodyLarge.copyWith(
+                        style: Styles.titleLarge.copyWith(
                           color: labelColor ?? Styles.kPrimaryText,
                           fontSize: 18,
                         ),
@@ -66,7 +66,7 @@ class ConfirmActionButton extends StatelessWidget {
                   )
                 : Text(
                     label,
-                    style: Styles.bodyLarge.copyWith(
+                    style: Styles.titleLarge.copyWith(
                       color: labelColor ?? Styles.kPrimaryText,
                       fontSize: 18,
                     ),

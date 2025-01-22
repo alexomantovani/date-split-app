@@ -7,6 +7,8 @@ void main() {
     uid: 'testUid123',
     email: 'test@example.com',
     displayName: 'Test User',
+    avatar: null,
+    nickName: null,
   );
 
   group('UserModel', () {
@@ -16,6 +18,8 @@ void main() {
         uid: 'testUid123',
         email: 'test@example.com',
         displayName: 'Test User',
+        avatar: null,
+        nickName: null,
       );
 
       // Act
@@ -35,6 +39,8 @@ void main() {
       expect(entity.uid, userModel.uid);
       expect(entity.email, userModel.email);
       expect(entity.displayName, userModel.displayName);
+      expect(entity.avatar, userModel.avatar);
+      expect(entity.nickName, userModel.nickName);
     });
 
     test('should convert from JSON correctly', () {
@@ -43,6 +49,8 @@ void main() {
         'uid': 'testUid123',
         'email': 'test@example.com',
         'displayName': 'Test User',
+        'avatar': null,
+        'nickName': null,
       };
 
       // Act
@@ -80,6 +88,8 @@ void main() {
         uid: 'testUid123',
         email: 'test@example.com',
         displayName: 'Test User',
+        avatar: null,
+        nickName: null,
       );
 
       // Assert
@@ -90,7 +100,7 @@ void main() {
       // Assert
       expect(
         userModel.toString(),
-        'UserModel{uid: testUid123, email: test@example.com, displayName: Test User}',
+        'UserModel{uid: testUid123, email: test@example.com, displayName: Test User, avatar: null, nickName: null}',
       );
     });
   });

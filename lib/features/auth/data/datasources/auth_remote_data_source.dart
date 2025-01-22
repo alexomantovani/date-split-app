@@ -1,8 +1,10 @@
 import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
 import 'package:date_split_app/core/errors/exception.dart';
 import 'package:date_split_app/core/services/local_preferences.dart';
 import 'package:date_split_app/core/utils/typedefs.dart';
-import 'package:http/http.dart' as http;
 
 abstract class AuthRemoteDataSource {
   Future<String> signUp({
@@ -14,6 +16,12 @@ abstract class AuthRemoteDataSource {
   Future<String> signIn({
     required String email,
     required String password,
+  });
+
+  Future<String> updateUser({
+    required String? token,
+    required String? avatar,
+    required String? nickName,
   });
 
   Future<String> resetPassword(String email);
@@ -78,11 +86,44 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
       final String token = responseData['token'];
-
       if (token != '') {
         LocalPreferences.setToken(token: token);
       }
       return token;
+    } else {
+      final errorData = jsonDecode(response.body);
+      throw ServerException(
+        message: errorData['message'] ?? 'Erro ao fazer login.',
+        statusCode: response.statusCode,
+      );
+    }
+  }
+
+  @override
+  Future<String> updateUser({
+    required String? token,
+    required String? avatar,
+    required String? nickName,
+  }) async {
+    final url = Uri.parse('$baseUrl/auth/update');
+    final body = jsonEncode({'avatar': avatar, 'nickName': nickName});
+    final response = await client.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+            'Bearer ${await LocalPreferences.getToken() ?? token!}',
+      },
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      final String newToken = responseData['token'];
+
+      LocalPreferences.updateToken(newToken: newToken);
+
+      return newToken;
     } else {
       final errorData = jsonDecode(response.body);
       throw ServerException(
