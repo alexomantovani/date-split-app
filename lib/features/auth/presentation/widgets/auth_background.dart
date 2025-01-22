@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:date_split_app/core/utils/constants.dart';
+import 'package:date_split_app/core/utils/assets.dart';
 import 'package:date_split_app/core/utils/styles.dart';
 
 class AuthBackground extends StatelessWidget {
@@ -23,7 +23,7 @@ class AuthBackground extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(kAuthBackgroundImage),
+            image: AssetImage(Assets.kAuthBackgroundImage),
             fit: BoxFit.fill,
           ),
         ),

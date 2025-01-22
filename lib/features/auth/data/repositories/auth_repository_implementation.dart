@@ -53,6 +53,26 @@ class AuthRepositoryImplementation implements AuthRepository {
   }
 
   @override
+  EitherFuture<String> updateUser({
+    required String? token,
+    required String? avatar,
+    required String? nickName,
+  }) async {
+    try {
+      final result = await _remoteDataSource.updateUser(
+        token: token,
+        avatar: avatar,
+        nickName: nickName,
+      );
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+    } catch (e) {
+      return Left(UnknownFailure(message: e.toString(), statusCode: null));
+    }
+  }
+
+  @override
   EitherFuture<UserModel> getUser() async {
     try {
       final result = await _localDataSource.getUser();

@@ -8,6 +8,7 @@ class Styles {
   static const Color kPrimaryBlueDark = Color(0xFF25A2D3);
   static const Color kPrimaryYellow = Color(0xFFFBE790);
   static const Color kPrimaryText = Color(0xFF5E5E5E);
+  static const Color kBgField = Color(0xFFEEEEEE);
   static const Color kPrimaryPeach = Color(0xFFFFF0DA);
   static const Color kDescriptionText = Color(0xFFB8B8B8);
   static const Color kStandardWhite = Color(0xFFFFFFFF);
@@ -15,9 +16,15 @@ class Styles {
   static const Color kStandardDelete = Color(0xFFCE735F);
   static const Color kStandardLightGrey = Color(0xFFEEEEEE);
 
-  static TextStyle bodyLarge = GoogleFonts.notoSansTc(
+  static TextStyle titleLarge = GoogleFonts.notoSansTc(
     color: kPrimaryText,
     fontSize: 24,
+    fontWeight: FontWeight.bold,
+  );
+
+  static TextStyle titleMedium = GoogleFonts.notoSansTc(
+    color: kPrimaryText,
+    fontSize: 18,
     fontWeight: FontWeight.bold,
   );
 

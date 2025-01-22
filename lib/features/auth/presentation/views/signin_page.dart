@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:date_split_app/core/common/views/home_page.dart';
 import 'package:date_split_app/core/common/widgets/custom_field.dart';
-import 'package:date_split_app/core/utils/constants.dart';
+import 'package:date_split_app/core/extensions/context_extension.dart';
+import 'package:date_split_app/core/utils/assets.dart';
 import 'package:date_split_app/core/utils/core_utils.dart';
 import 'package:date_split_app/core/utils/styles.dart';
 import 'package:date_split_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:date_split_app/features/auth/presentation/views/auth_page.dart';
 import 'package:date_split_app/features/auth/presentation/widgets/auth_background.dart';
-import 'package:date_split_app/features/auth/presentation/widgets/confirm_action_button.dart';
+import 'package:date_split_app/core/common/widgets/confirm_action_button.dart';
 
 class SigninPage extends StatefulWidget {
   const SigninPage({super.key, this.isAuthPage = true});
@@ -44,7 +45,7 @@ class _SigninPageState extends State<SigninPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Image.asset(kAuthHouseImage),
+              Image.asset(Assets.kAuthHouseImage),
               CustomField(
                 controller: emailController,
                 hintText: 'Email',
@@ -133,12 +134,12 @@ class _SigninPageState extends State<SigninPage> {
 
   void signIn(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
-      BlocProvider.of<AuthBloc>(context).add(
-        SignInEvent(
-          email: emailController.text,
-          password: passwordController.text,
-        ),
-      );
+      context.blocProvider<AuthBloc>().add(
+            SignInEvent(
+              email: emailController.text,
+              password: passwordController.text,
+            ),
+          );
     }
   }
 }

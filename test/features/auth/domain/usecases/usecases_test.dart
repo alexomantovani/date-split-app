@@ -1,10 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:date_split_app/core/errors/failure.dart';
-import 'package:date_split_app/features/auth/data/models/user_model.dart';
-import 'package:date_split_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
+import 'package:date_split_app/core/errors/failure.dart';
+import 'package:date_split_app/features/auth/data/models/user_model.dart';
+import 'package:date_split_app/features/auth/domain/repositories/auth_repository.dart';
 
 import 'usecases_test.mocks.dart';
 
@@ -102,6 +103,51 @@ void main() {
       // Assert
       expect(result, equals(const Left(failure)));
       verify(mockAuthRepository.signIn(email: email, password: password))
+          .called(1);
+      verifyNoMoreInteractions(mockAuthRepository);
+    });
+    test('should return newToken on successful update', () async {
+      // Arrange
+      const token = 'token';
+      const avatar = 'avatar';
+      const nickName = 'nickName';
+      const newToken = 'newToken';
+
+      when(mockAuthRepository.updateUser(
+              token: token, avatar: avatar, nickName: nickName))
+          .thenAnswer((_) async => const Right(newToken));
+
+      // Act
+      final result = await mockAuthRepository.updateUser(
+          token: token, avatar: avatar, nickName: nickName);
+
+      // Assert
+      expect(result, equals(const Right(newToken)));
+      verify(mockAuthRepository.updateUser(
+              token: token, avatar: avatar, nickName: nickName))
+          .called(1);
+      verifyNoMoreInteractions(mockAuthRepository);
+    });
+
+    test('should return Failure on updateUser failure', () async {
+      // Arrange
+      const token = 'token';
+      const avatar = 'avatar';
+      const nickName = 'nickName';
+      const failure = ServerFailure(message: 'Expired Token', statusCode: 401);
+
+      when(mockAuthRepository.updateUser(
+              token: token, avatar: avatar, nickName: nickName))
+          .thenAnswer((_) async => const Left(failure));
+
+      // Act
+      final result = await mockAuthRepository.updateUser(
+          token: token, avatar: avatar, nickName: nickName);
+
+      // Assert
+      expect(result, equals(const Left(failure)));
+      verify(mockAuthRepository.updateUser(
+              token: token, avatar: avatar, nickName: nickName))
           .called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });

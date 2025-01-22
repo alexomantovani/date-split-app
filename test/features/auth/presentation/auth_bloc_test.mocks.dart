@@ -21,6 +21,8 @@ import 'package:date_split_app/features/auth/domain/usecases/signin.dart'
     as _i8;
 import 'package:date_split_app/features/auth/domain/usecases/signup.dart'
     as _i7;
+import 'package:date_split_app/features/auth/domain/usecases/update_user.dart'
+    as _i12;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -91,6 +93,31 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
                 Invocation.method(#signIn, [], {
                   #email: email,
                   #password: password,
+                }),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, String>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, String>> updateUser({
+    required String? token,
+    required String? avatar,
+    required String? nickName,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateUser, [], {
+              #token: token,
+              #avatar: avatar,
+              #nickName: nickName,
+            }),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+              _FakeEither_0<_i5.Failure, String>(
+                this,
+                Invocation.method(#updateUser, [], {
+                  #token: token,
+                  #avatar: avatar,
+                  #nickName: nickName,
                 }),
               ),
             ),
@@ -251,4 +278,28 @@ class MockGetUser extends _i1.Mock implements _i11.GetUser {
                 ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, _i6.UserModel>>);
+}
+
+/// A class which mocks [UpdateUser].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUpdateUser extends _i1.Mock implements _i12.UpdateUser {
+  MockUpdateUser() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, String>> call(
+    _i12.UpdateUserParams? params,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#call, [params]),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+              _FakeEither_0<_i5.Failure, String>(
+                this,
+                Invocation.method(#call, [params]),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, String>>);
 }

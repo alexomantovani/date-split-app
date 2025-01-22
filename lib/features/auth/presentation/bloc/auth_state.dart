@@ -29,6 +29,15 @@ class SignInSuccess extends AuthState {
   List<Object?> get props => [token];
 }
 
+class UpdateUserSuccess extends AuthState {
+  final String newToken;
+
+  const UpdateUserSuccess({required this.newToken});
+
+  @override
+  List<Object?> get props => [newToken];
+}
+
 class AuthError extends AuthState {
   final String message;
 

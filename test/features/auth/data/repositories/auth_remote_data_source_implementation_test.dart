@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
-import 'package:date_split_app/features/auth/data/datasources/auth_local_data_source.dart';
-import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:date_split_app/core/errors/exception.dart';
 import 'package:date_split_app/core/errors/failure.dart';
+import 'package:date_split_app/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:date_split_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:date_split_app/features/auth/data/models/user_model.dart';
 import 'package:date_split_app/features/auth/data/repositories/auth_repository_implementation.dart';
 
 import 'auth_remote_data_source_implementation_test.mocks.dart';
@@ -137,6 +137,69 @@ void main() {
               ServerFailure(message: 'Invalid credentials', statusCode: 401))));
       verify(mockRemoteDataSource.signIn(email: email, password: password))
           .called(1);
+    });
+  });
+
+  group('updateUser', () {
+    const token = 'token';
+    const avatar = 'avatar';
+    const nickName = 'password123';
+    const newToken = 'newToken';
+
+    test('should return newToken on successful update', () async {
+      // Arrange
+      when(mockRemoteDataSource.updateUser(
+        token: token,
+        avatar: avatar,
+        nickName: nickName,
+      )).thenAnswer((_) async => newToken);
+
+      // Act
+      final result = await repository.updateUser(
+        token: token,
+        avatar: avatar,
+        nickName: nickName,
+      );
+
+      // Assert
+      expect(result, equals(const Right(newToken)));
+      verify(mockRemoteDataSource.updateUser(
+        token: token,
+        avatar: avatar,
+        nickName: nickName,
+      )).called(1);
+    });
+
+    test('should return ServerFailure on server exception', () async {
+      // Arrange
+      when(mockRemoteDataSource.updateUser(
+        token: token,
+        avatar: avatar,
+        nickName: nickName,
+      )).thenThrow(
+          const ServerException(message: 'Token expired', statusCode: 401));
+
+      // Act
+      final result = await repository.updateUser(
+        token: token,
+        avatar: avatar,
+        nickName: nickName,
+      );
+
+      // Assert
+      expect(
+        result,
+        equals(
+          const Left(
+            ServerFailure(message: 'Token expired', statusCode: 401),
+          ),
+        ),
+      );
+      verify(mockRemoteDataSource.updateUser(
+        token: token,
+        avatar: avatar,
+        nickName: nickName,
+      )).called(1);
     });
   });
 

@@ -90,6 +90,31 @@ class MockAuthRemoteDataSource extends _i1.Mock
           as _i4.Future<String>);
 
   @override
+  _i4.Future<String> updateUser({
+    required String? token,
+    required String? avatar,
+    required String? nickName,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateUser, [], {
+              #token: token,
+              #avatar: avatar,
+              #nickName: nickName,
+            }),
+            returnValue: _i4.Future<String>.value(
+              _i5.dummyValue<String>(
+                this,
+                Invocation.method(#updateUser, [], {
+                  #token: token,
+                  #avatar: avatar,
+                  #nickName: nickName,
+                }),
+              ),
+            ),
+          )
+          as _i4.Future<String>);
+
+  @override
   _i4.Future<String> resetPassword(String? email) =>
       (super.noSuchMethod(
             Invocation.method(#resetPassword, [email]),
