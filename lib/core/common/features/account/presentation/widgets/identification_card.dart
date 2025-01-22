@@ -34,10 +34,12 @@ class IdentificationCard extends StatelessWidget {
                     onTap: () {
                       context.blocProvider<ConfigurationBloc>().add(
                             SelectConfigurationDataEvent(
-                              avatar: Assets.kAvatarList.firstWhere(
-                                (avatar) =>
-                                    avatar.contains(state.userModel.avatar!),
-                              ),
+                              avatar: state.userModel.avatar != null
+                                  ? Assets.kAvatarList.firstWhere(
+                                      (avatar) => avatar
+                                          .contains(state.userModel.avatar!),
+                                    )
+                                  : null,
                               nickName: state.userModel.nickName,
                             ),
                           );
@@ -86,7 +88,10 @@ class IdentificationCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        state.userModel.nickName ?? state.userModel.displayName,
+                        state.userModel.nickName != null &&
+                                state.userModel.nickName!.isNotEmpty
+                            ? state.userModel.nickName!
+                            : state.userModel.displayName,
                         style: context.textTheme.titleLarge,
                       ),
                       Text(
