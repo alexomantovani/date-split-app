@@ -14,6 +14,7 @@ class Styles {
   static const Color kStandardWhite = Color(0xFFFFFFFF);
   static const Color kStandardBlack = Color(0xFF000000);
   static const Color kStandardDelete = Color(0xFFCE735F);
+  static const Color kStandardConfirm = Color(0xFF50C878);
   static const Color kStandardLightGrey = Color(0xFFEEEEEE);
 
   static TextStyle titleLarge = GoogleFonts.notoSansTc(
@@ -25,6 +26,12 @@ class Styles {
   static TextStyle titleMedium = GoogleFonts.notoSansTc(
     color: kPrimaryText,
     fontSize: 18,
+    fontWeight: FontWeight.bold,
+  );
+
+  static TextStyle titleSmall = GoogleFonts.notoSansTc(
+    color: kPrimaryText,
+    fontSize: 16,
     fontWeight: FontWeight.bold,
   );
 

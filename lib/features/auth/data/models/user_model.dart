@@ -7,6 +7,7 @@ class UserModel extends User {
     required super.displayName,
     required super.avatar,
     required super.nickName,
+    required super.following,
   });
 
   const UserModel.empty()
@@ -16,6 +17,7 @@ class UserModel extends User {
           displayName: '',
           avatar: null,
           nickName: null,
+          following: null,
         );
 
   @override
@@ -34,6 +36,7 @@ class UserModel extends User {
       displayName: user.displayName,
       avatar: user.avatar,
       nickName: user.nickName,
+      following: user.following,
     );
   }
 
@@ -44,6 +47,7 @@ class UserModel extends User {
       displayName: displayName,
       avatar: avatar,
       nickName: nickName,
+      following: following,
     );
   }
 
@@ -55,6 +59,7 @@ class UserModel extends User {
       displayName: json['displayName'] as String,
       avatar: json['avatar'],
       nickName: json['nickName'],
+      following: json['following'],
     );
   }
 
@@ -65,6 +70,7 @@ class UserModel extends User {
       'displayName': displayName,
       'avatar': avatar,
       'nickName': nickName,
+      'following': following,
     };
   }
 }

@@ -5,6 +5,7 @@ final sl = GetIt.instance;
 Future<void> init() async {
   await authInit();
   await avatarInit();
+  await accountInit();
 }
 
 Future<void> authInit() async {
@@ -35,7 +36,7 @@ Future<void> authInit() async {
               baseUrl: sl(),
             ))
     ..registerLazySingleton(() => http.Client())
-    ..registerLazySingleton(() => Environments.dev);
+    ..registerLazySingleton(() => Environments.prod);
 }
 
 Future<void> avatarInit() async {
@@ -45,4 +46,22 @@ Future<void> avatarInit() async {
       nickName: sl<String>(),
     ),
   );
+}
+
+Future<void> accountInit() async {
+  sl
+    ..registerFactory(
+      () => AccountBloc(
+        getPartyUsers: sl<GetPartyUsers>(),
+      ),
+    )
+    ..registerLazySingleton(() => GetPartyUsers(sl()))
+    ..registerLazySingleton<AccountRepository>(
+        () => AccountRepositoryImpl(sl()))
+    ..registerLazySingleton<AccountRemoteDataSource>(
+      () => AccountRemoteDataSourceImpl(
+        baseUrl: sl(),
+        client: sl(),
+      ),
+    );
 }

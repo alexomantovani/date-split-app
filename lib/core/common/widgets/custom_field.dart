@@ -21,6 +21,7 @@ class CustomField extends StatelessWidget {
     this.overrideValidator = false,
     this.defaultBorder = true,
     this.onFieldSubmitted,
+    this.onChanged,
   });
 
   final String? Function(String?)? validator;
@@ -40,6 +41,7 @@ class CustomField extends StatelessWidget {
   final TextStyle? hintStyle;
   final TextStyle? mainStyle;
   final Function(String)? onFieldSubmitted;
+  final Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,7 @@ class CustomField extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       onTap: () => FocusScope.of(context).requestFocus(),
+      onChanged: onChanged,
       onFieldSubmitted: onFieldSubmitted,
       keyboardType: keyboardType,
       obscureText: obscureText,
@@ -77,7 +80,7 @@ class CustomField extends StatelessWidget {
             : UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: enabledBorderColor ?? Styles.kDescriptionText,
-                  width: 0.5,
+                  width: 2,
                 ),
               ),
         focusedBorder: defaultBorder

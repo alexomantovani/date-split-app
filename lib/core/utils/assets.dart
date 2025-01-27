@@ -62,4 +62,20 @@ class Assets {
     kBirdAvatar,
     kWhaleAvatar,
   ];
+
+  static String toAssetPath({
+    required String? asset,
+    String prefix = 'lib/assets/avatar/',
+    String suffix = '.png',
+  }) =>
+      asset == null || asset == '' ? kZebraAvatar : '$prefix$asset$suffix';
+
+  static String pathToAsset({
+    required String? path,
+    String prefix = 'lib/assets/avatar/',
+    String suffix = '.png',
+  }) =>
+      path == null
+          ? ''
+          : path.replaceFirst(prefix, '').replaceFirst(suffix, '');
 }
