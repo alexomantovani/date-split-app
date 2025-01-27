@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:date_split_app/core/common/features/account/presentation/bloc/configuration_bloc.dart';
+import 'package:date_split_app/core/common/features/account/presentation/bloc/configuration/configuration_bloc.dart';
 import 'package:date_split_app/core/common/widgets/custom_field.dart';
 import 'package:date_split_app/core/extensions/context_extension.dart';
 import 'package:date_split_app/core/utils/assets.dart';
@@ -62,13 +62,11 @@ class _ConfigurationBottomSheetState extends State<ConfigurationBottomSheet> {
                       ),
                       TextButton(
                         onPressed: () {
-                          String? avatar = state.avatar
-                              ?.replaceAll('lib/assets/avatar/', '')
-                              .replaceAll('.png', '');
                           context.blocProvider<AuthBloc>().add(
                                 UpdateUserEvent(
                                   token: null,
-                                  avatar: avatar,
+                                  avatar:
+                                      Assets.pathToAsset(path: state.avatar),
                                   nickName: nickNameController.text,
                                 ),
                               );

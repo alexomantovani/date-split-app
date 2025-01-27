@@ -1,5 +1,6 @@
 import 'package:date_split_app/core/app/restart_app.dart';
-import 'package:date_split_app/core/common/features/account/presentation/bloc/configuration_bloc.dart';
+import 'package:date_split_app/core/common/features/account/presentation/bloc/account/account_bloc.dart';
+import 'package:date_split_app/core/common/features/account/presentation/bloc/configuration/configuration_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<ConfigurationBloc>(
           create: (context) => sl<ConfigurationBloc>(),
         ),
+        BlocProvider<AccountBloc>(
+          create: (context) => sl<AccountBloc>(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -37,6 +41,7 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(
             titleLarge: Styles.titleLarge,
             titleMedium: Styles.titleMedium,
+            titleSmall: Styles.titleSmall,
             bodyMedium: Styles.bodyMedium,
           ),
         ),

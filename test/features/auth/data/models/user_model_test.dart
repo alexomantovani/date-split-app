@@ -9,6 +9,7 @@ void main() {
     displayName: 'Test User',
     avatar: null,
     nickName: null,
+    following: null,
   );
 
   group('UserModel', () {
@@ -20,6 +21,7 @@ void main() {
         displayName: 'Test User',
         avatar: null,
         nickName: null,
+        following: null,
       );
 
       // Act
@@ -51,6 +53,7 @@ void main() {
         'displayName': 'Test User',
         'avatar': null,
         'nickName': null,
+        'following': null,
       };
 
       // Act
@@ -90,6 +93,7 @@ void main() {
         displayName: 'Test User',
         avatar: null,
         nickName: null,
+        following: null,
       );
 
       // Assert

@@ -1,3 +1,4 @@
+import 'package:date_split_app/core/common/features/account/domain/entities/party_user.dart';
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
@@ -6,6 +7,7 @@ class User extends Equatable {
   final String displayName;
   final String? avatar;
   final String? nickName;
+  final List<PartyUser>? following;
 
   const User({
     required this.uid,
@@ -13,16 +15,18 @@ class User extends Equatable {
     required this.displayName,
     required this.avatar,
     required this.nickName,
+    required this.following,
   });
 
   @override
-  List<Object?> get props => [uid, email, displayName, avatar, nickName];
+  List<Object?> get props =>
+      [uid, email, displayName, avatar, nickName, following];
 
   @override
   bool? get stringify => false;
 
   @override
   String toString() {
-    return 'User{uid: $uid, email: $email, displayName: $displayName, avatar: $avatar, nickName: $nickName}';
+    return 'User{uid: $uid, email: $email, displayName: $displayName, avatar: $avatar, nickName: $nickName, following: $following}';
   }
 }

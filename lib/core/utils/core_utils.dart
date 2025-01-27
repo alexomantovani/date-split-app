@@ -1,3 +1,4 @@
+import 'package:date_split_app/core/services/local_preferences.dart';
 import 'package:date_split_app/core/utils/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -7,11 +8,35 @@ class CoreUtils {
   static void unNamedRouteNavigation({
     required Widget page,
     required BuildContext context,
+    bool? customRoute = false,
   }) {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => page,
-      ),
+      customRoute!
+          ? PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => page,
+              transitionsBuilder: (
+                context,
+                animation,
+                secondaryAnimation,
+                child,
+              ) =>
+                  SlideTransition(
+                position: animation.drive(
+                  Tween(
+                    begin: const Offset(0.0, 1.0),
+                    end: Offset.zero,
+                  ).chain(
+                    CurveTween(
+                      curve: Curves.easeInOut,
+                    ),
+                  ),
+                ),
+                child: child,
+              ),
+            )
+          : MaterialPageRoute(
+              builder: (context) => page,
+            ),
     );
   }
 
@@ -40,5 +65,12 @@ class CoreUtils {
           margin: const EdgeInsets.all(10),
         ),
       );
+  }
+
+  static Future<Map<String, String>> tokenHeaders() async {
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await LocalPreferences.getToken()}',
+    };
   }
 }
