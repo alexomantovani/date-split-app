@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:date_split_app/core/app/restart_app.dart';
-import 'package:date_split_app/core/common/features/account/presentation/bloc/configuration_bloc.dart';
+import 'package:date_split_app/core/common/features/account/presentation/bloc/configuration/configuration_bloc.dart';
 import 'package:date_split_app/core/extensions/context_extension.dart';
 import 'package:date_split_app/core/services/app_service.dart';
 import 'package:date_split_app/core/services/local_preferences.dart';
@@ -59,9 +59,8 @@ class IdentificationCard extends StatelessWidget {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: AssetImage(
-                                  state.userModel.avatar != null
-                                      ? 'lib/assets/avatar/${state.userModel.avatar}.png'
-                                      : Assets.kZebraAvatar,
+                                  Assets.toAssetPath(
+                                      asset: state.userModel.avatar),
                                 ),
                                 fit: BoxFit.cover,
                               ),
