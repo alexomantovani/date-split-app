@@ -8,6 +8,8 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:date_split_app/core/common/features/account/domain/entities/party_user.dart'
     as _i6;
+import 'package:date_split_app/core/common/features/account/domain/usecases/add_party_user.dart'
+    as _i7;
 import 'package:date_split_app/core/common/features/account/domain/usecases/get_party_user.dart'
     as _i3;
 import 'package:date_split_app/core/errors/failure.dart' as _i5;
@@ -55,4 +57,28 @@ class MockGetPartyUsers extends _i1.Mock implements _i3.GetPartyUsers {
                 ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, List<_i6.PartyUser>>>);
+}
+
+/// A class which mocks [AddPartyUsers].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAddPartyUsers extends _i1.Mock implements _i7.AddPartyUsers {
+  MockAddPartyUsers() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, String>> call(
+    _i7.AddPartyUserParams? params,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#call, [params]),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+              _FakeEither_0<_i5.Failure, String>(
+                this,
+                Invocation.method(#call, [params]),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, String>>);
 }

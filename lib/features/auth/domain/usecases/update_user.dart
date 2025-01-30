@@ -11,7 +11,6 @@ class UpdateUser extends UsecaseWithParams<String, UpdateUserParams> {
 
   @override
   EitherFuture<String> call(params) => _repository.updateUser(
-        token: params.token,
         avatar: params.avatar,
         nickName: params.nickName,
       );
@@ -19,22 +18,19 @@ class UpdateUser extends UsecaseWithParams<String, UpdateUserParams> {
 
 class UpdateUserParams extends Equatable {
   const UpdateUserParams({
-    required this.token,
     required this.avatar,
     required this.nickName,
   });
 
-  final String? token;
   final String? avatar;
   final String? nickName;
 
   const UpdateUserParams.empty()
       : this(
-          token: '',
           avatar: '',
           nickName: '',
         );
 
   @override
-  List<Object?> get props => [token];
+  List<Object?> get props => [avatar, nickName];
 }

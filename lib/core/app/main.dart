@@ -1,6 +1,7 @@
 import 'package:date_split_app/core/app/restart_app.dart';
 import 'package:date_split_app/core/common/features/account/presentation/bloc/account/account_bloc.dart';
 import 'package:date_split_app/core/common/features/account/presentation/bloc/configuration/configuration_bloc.dart';
+import 'package:date_split_app/core/common/features/account/presentation/bloc/manage/manage_data_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,6 +31,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<AccountBloc>(
           create: (context) => sl<AccountBloc>(),
+        ),
+        BlocProvider<ManageDataBloc>(
+          create: (context) => sl<ManageDataBloc>(),
         ),
       ],
       child: MaterialApp(

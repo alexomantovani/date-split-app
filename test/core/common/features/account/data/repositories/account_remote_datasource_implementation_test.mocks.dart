@@ -10,6 +10,7 @@ import 'package:date_split_app/core/common/features/account/data/datasources/acc
 import 'package:date_split_app/core/common/features/account/domain/entities/party_user.dart'
     as _i4;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -51,4 +52,21 @@ class MockAccountRemoteDataSource extends _i1.Mock
             ),
           )
           as _i3.Future<List<_i4.PartyUser>>);
+
+  @override
+  _i3.Future<String> addPartyUsers({required List<String>? partyUserList}) =>
+      (super.noSuchMethod(
+            Invocation.method(#addPartyUsers, [], {
+              #partyUserList: partyUserList,
+            }),
+            returnValue: _i3.Future<String>.value(
+              _i5.dummyValue<String>(
+                this,
+                Invocation.method(#addPartyUsers, [], {
+                  #partyUserList: partyUserList,
+                }),
+              ),
+            ),
+          )
+          as _i3.Future<String>);
 }

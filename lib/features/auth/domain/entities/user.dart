@@ -8,6 +8,7 @@ class User extends Equatable {
   final String? avatar;
   final String? nickName;
   final List<PartyUser>? following;
+  final List<dynamic>? parties;
 
   const User({
     required this.uid,
@@ -16,17 +17,18 @@ class User extends Equatable {
     required this.avatar,
     required this.nickName,
     required this.following,
+    required this.parties,
   });
 
   @override
   List<Object?> get props =>
-      [uid, email, displayName, avatar, nickName, following];
+      [uid, email, displayName, avatar, nickName, following, parties];
 
   @override
   bool? get stringify => false;
 
   @override
   String toString() {
-    return 'User{uid: $uid, email: $email, displayName: $displayName, avatar: $avatar, nickName: $nickName, following: $following}';
+    return 'User{uid: $uid, email: $email, displayName: $displayName, avatar: $avatar, nickName: $nickName, following: $following, parties: $parties}';
   }
 }

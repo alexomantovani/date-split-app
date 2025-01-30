@@ -67,6 +67,25 @@ class MockAccountRepository extends _i1.Mock implements _i3.AccountRepository {
                 ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, List<_i6.PartyUser>>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, String>> addPartyUsers({
+    required List<String>? partyUserList,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#addPartyUsers, [], {
+              #partyUserList: partyUserList,
+            }),
+            returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+              _FakeEither_0<_i5.Failure, String>(
+                this,
+                Invocation.method(#addPartyUsers, [], {
+                  #partyUserList: partyUserList,
+                }),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, String>>);
 }
 
 /// A class which mocks [GetPartyUsers].

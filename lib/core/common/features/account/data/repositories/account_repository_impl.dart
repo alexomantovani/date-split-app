@@ -32,4 +32,22 @@ class AccountRepositoryImpl implements AccountRepository {
           message: e.toString(), cause: 'Unexpected error', statusCode: -1));
     }
   }
+
+  @override
+  EitherFuture<String> addPartyUsers({
+    required List<String> partyUserList,
+  }) async {
+    try {
+      final result = await _remoteDataSource.addPartyUsers(
+        partyUserList: partyUserList,
+      );
+
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+    } catch (e) {
+      return Left(UnknownFailure(
+          message: e.toString(), cause: 'Unexpected error', statusCode: -1));
+    }
+  }
 }

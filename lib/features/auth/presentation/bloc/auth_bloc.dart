@@ -33,6 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<DeleteAccountEvent>(_onDeleteAccount);
     on<GetUserEvent>(_onGetUser);
     on<UpdateUserEvent>(_onUpdateUser);
+    on<RestartEvent>(_onRestartState);
   }
 
   final Signup _signUp;
@@ -41,6 +42,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final DeleteAccount _deleteAccount;
   final GetUser _getUser;
   final UpdateUser _updateUser;
+
+  Future<void> _onRestartState(
+      RestartEvent event, Emitter<AuthState> emit) async {
+    emit(AuthInitial());
+  }
 
   Future<void> _onSignUp(SignUpEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
@@ -72,7 +78,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       UpdateUserEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     final result = await _updateUser.call(UpdateUserParams(
-      token: event.token,
       avatar: event.avatar,
       nickName: event.nickName,
     ));

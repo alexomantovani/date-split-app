@@ -108,46 +108,40 @@ void main() {
     });
     test('should return newToken on successful update', () async {
       // Arrange
-      const token = 'token';
       const avatar = 'avatar';
       const nickName = 'nickName';
       const newToken = 'newToken';
 
-      when(mockAuthRepository.updateUser(
-              token: token, avatar: avatar, nickName: nickName))
+      when(mockAuthRepository.updateUser(avatar: avatar, nickName: nickName))
           .thenAnswer((_) async => const Right(newToken));
 
       // Act
       final result = await mockAuthRepository.updateUser(
-          token: token, avatar: avatar, nickName: nickName);
+          avatar: avatar, nickName: nickName);
 
       // Assert
       expect(result, equals(const Right(newToken)));
-      verify(mockAuthRepository.updateUser(
-              token: token, avatar: avatar, nickName: nickName))
+      verify(mockAuthRepository.updateUser(avatar: avatar, nickName: nickName))
           .called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
     test('should return Failure on updateUser failure', () async {
       // Arrange
-      const token = 'token';
       const avatar = 'avatar';
       const nickName = 'nickName';
       const failure = ServerFailure(message: 'Expired Token', statusCode: 401);
 
-      when(mockAuthRepository.updateUser(
-              token: token, avatar: avatar, nickName: nickName))
+      when(mockAuthRepository.updateUser(avatar: avatar, nickName: nickName))
           .thenAnswer((_) async => const Left(failure));
 
       // Act
       final result = await mockAuthRepository.updateUser(
-          token: token, avatar: avatar, nickName: nickName);
+          avatar: avatar, nickName: nickName);
 
       // Assert
       expect(result, equals(const Left(failure)));
-      verify(mockAuthRepository.updateUser(
-              token: token, avatar: avatar, nickName: nickName))
+      verify(mockAuthRepository.updateUser(avatar: avatar, nickName: nickName))
           .called(1);
       verifyNoMoreInteractions(mockAuthRepository);
     });

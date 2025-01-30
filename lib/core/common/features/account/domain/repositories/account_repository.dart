@@ -9,4 +9,6 @@ abstract class AccountRepository {
     required String? nickName,
     required String? displayName,
   });
+
+  EitherFuture<String> addPartyUsers({required List<String> partyUserList});
 }
