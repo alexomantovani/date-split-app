@@ -118,9 +118,7 @@ class _SigninPageState extends State<SigninPage> {
                       fixedSize: true,
                       backGroundColor: Styles.kPrimaryYellow,
                       label: 'Entrar',
-                      onPressed: () {
-                        signIn(context);
-                      },
+                      onPressed: () => signIn(context),
                     ),
                   ),
                 ],

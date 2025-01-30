@@ -10,6 +10,7 @@ void main() {
     avatar: null,
     nickName: null,
     following: null,
+    parties: null,
   );
 
   group('UserModel', () {
@@ -22,6 +23,7 @@ void main() {
         avatar: null,
         nickName: null,
         following: null,
+        parties: null,
       );
 
       // Act
@@ -94,6 +96,7 @@ void main() {
         avatar: null,
         nickName: null,
         following: null,
+        parties: null,
       );
 
       // Assert
@@ -104,7 +107,7 @@ void main() {
       // Assert
       expect(
         userModel.toString(),
-        'UserModel{uid: testUid123, email: test@example.com, displayName: Test User, avatar: null, nickName: null}',
+        'UserModel{uid: testUid123, email: test@example.com, displayName: Test User, avatar: null, nickName: null, following: null, parties: null}',
       );
     });
   });

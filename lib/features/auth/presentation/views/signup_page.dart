@@ -26,6 +26,18 @@ class _SignupPageState extends State<SignupPage> {
   bool obscureText = true;
   bool isLoading = false;
 
+  void signUp(BuildContext context) {
+    if (_formKey.currentState?.validate() ?? false) {
+      context.blocProvider<AuthBloc>().add(
+            SignUpEvent(
+              email: emailController.text,
+              password: passwordController.text,
+              displayName: nameController.text,
+            ),
+          );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AuthBackground(
@@ -63,6 +75,7 @@ class _SignupPageState extends State<SignupPage> {
                 filled: true,
                 fillColour: Styles.kStandardLightGrey,
                 obscureText: obscureText,
+                onFieldSubmitted: (_) => signUp(context),
                 suffixIcon: obscureText
                     ? IconButton(
                         onPressed: () =>
@@ -118,17 +131,7 @@ class _SignupPageState extends State<SignupPage> {
                       fixedSize: true,
                       backGroundColor: Styles.kPrimaryYellow,
                       label: 'Confirmar',
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          context.blocProvider<AuthBloc>().add(
-                                SignUpEvent(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  displayName: nameController.text,
-                                ),
-                              );
-                        }
-                      },
+                      onPressed: () => signUp(context),
                     ),
                   ),
                 ],

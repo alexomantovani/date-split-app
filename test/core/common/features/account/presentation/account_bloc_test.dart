@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
+import 'package:date_split_app/core/common/features/account/domain/usecases/add_party_user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -9,16 +10,19 @@ import 'package:date_split_app/core/common/features/account/domain/usecases/get_
 import 'package:date_split_app/core/common/features/account/presentation/bloc/account/account_bloc.dart';
 import 'package:date_split_app/core/errors/failure.dart';
 
-import '../domain/usecases/get_party_users_test.mocks.dart';
+import 'account_bloc_test.mocks.dart';
 
-@GenerateMocks([GetPartyUsers])
+@GenerateMocks([GetPartyUsers, AddPartyUsers])
 void main() {
   late AccountBloc accountBloc;
   late GetPartyUsers getPartyUsers;
+  late AddPartyUsers addPartyUsers;
 
   setUp(() {
     getPartyUsers = MockGetPartyUsers();
-    accountBloc = AccountBloc(getPartyUsers: getPartyUsers);
+    addPartyUsers = MockAddPartyUsers();
+    accountBloc =
+        AccountBloc(getPartyUsers: getPartyUsers, addPartyUsers: addPartyUsers);
   });
 
   group('GetPartyUsers', () {

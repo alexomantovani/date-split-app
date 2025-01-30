@@ -141,7 +141,6 @@ void main() {
   });
 
   group('updateUser', () {
-    const token = 'token';
     const avatar = 'avatar';
     const nickName = 'password123';
     const newToken = 'newToken';
@@ -149,14 +148,12 @@ void main() {
     test('should return newToken on successful update', () async {
       // Arrange
       when(mockRemoteDataSource.updateUser(
-        token: token,
         avatar: avatar,
         nickName: nickName,
       )).thenAnswer((_) async => newToken);
 
       // Act
       final result = await repository.updateUser(
-        token: token,
         avatar: avatar,
         nickName: nickName,
       );
@@ -164,7 +161,6 @@ void main() {
       // Assert
       expect(result, equals(const Right(newToken)));
       verify(mockRemoteDataSource.updateUser(
-        token: token,
         avatar: avatar,
         nickName: nickName,
       )).called(1);
@@ -173,7 +169,6 @@ void main() {
     test('should return ServerFailure on server exception', () async {
       // Arrange
       when(mockRemoteDataSource.updateUser(
-        token: token,
         avatar: avatar,
         nickName: nickName,
       )).thenThrow(
@@ -181,7 +176,6 @@ void main() {
 
       // Act
       final result = await repository.updateUser(
-        token: token,
         avatar: avatar,
         nickName: nickName,
       );
@@ -196,7 +190,6 @@ void main() {
         ),
       );
       verify(mockRemoteDataSource.updateUser(
-        token: token,
         avatar: avatar,
         nickName: nickName,
       )).called(1);

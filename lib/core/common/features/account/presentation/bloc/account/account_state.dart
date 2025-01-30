@@ -28,3 +28,21 @@ class AccountError extends AccountState {
   @override
   List<Object?> get props => [message];
 }
+
+class SelectPartyUserSuccess extends AccountState {
+  final List<String> partyUserUids;
+
+  const SelectPartyUserSuccess({required this.partyUserUids});
+
+  @override
+  List<Object?> get props => [partyUserUids];
+}
+
+class AddPartyUserSuccess extends AccountState {
+  final String token;
+
+  const AddPartyUserSuccess({required this.token});
+
+  @override
+  List<Object?> get props => [token];
+}

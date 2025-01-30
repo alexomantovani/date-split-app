@@ -54,13 +54,11 @@ class AuthRepositoryImplementation implements AuthRepository {
 
   @override
   EitherFuture<String> updateUser({
-    required String? token,
     required String? avatar,
     required String? nickName,
   }) async {
     try {
       final result = await _remoteDataSource.updateUser(
-        token: token,
         avatar: avatar,
         nickName: nickName,
       );
