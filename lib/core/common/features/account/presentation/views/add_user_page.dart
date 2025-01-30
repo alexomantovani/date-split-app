@@ -1,13 +1,15 @@
-import 'package:date_split_app/core/common/features/account/presentation/widgets/follow_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:date_split_app/core/common/features/account/presentation/bloc/account/account_bloc.dart';
+import 'package:date_split_app/core/common/features/account/presentation/bloc/manage/manage_data_bloc.dart';
+import 'package:date_split_app/core/common/features/account/presentation/widgets/party_user_list_view.dart';
 import 'package:date_split_app/core/common/widgets/custom_field.dart';
 import 'package:date_split_app/core/extensions/context_extension.dart';
 import 'package:date_split_app/core/extensions/string_extension.dart';
-import 'package:date_split_app/core/utils/assets.dart';
+import 'package:date_split_app/core/services/local_preferences.dart';
 import 'package:date_split_app/core/utils/styles.dart';
+import 'package:date_split_app/features/auth/presentation/bloc/auth_bloc.dart';
 
 class AddUserPage extends StatefulWidget {
   const AddUserPage({super.key});
@@ -19,12 +21,59 @@ class AddUserPage extends StatefulWidget {
 class _AddUserPageState extends State<AddUserPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController friendContoller = TextEditingController();
-  List<bool> followingNickNameList = [];
 
   @override
   void dispose() {
     friendContoller.dispose();
     super.dispose();
+  }
+
+  void _addPartyUser({required List<String> partyUserList}) {
+    if (partyUserList.isNotEmpty) {
+      context
+          .blocProvider<AccountBloc>()
+          .add(AddPartyUserEvent(partyUserList: partyUserList));
+      _clearAuth();
+    }
+  }
+
+  void _clearAuth() {
+    context.blocProvider<AuthBloc>().add(const RestartEvent());
+  }
+
+  void _updateToken({required String token}) async {
+    await LocalPreferences.clearToken();
+    await LocalPreferences.setToken(token: token);
+    _updateUser();
+  }
+
+  void _updateUser() {
+    context.blocProvider<AuthBloc>().add(const GetUserEvent());
+    _clearEvents();
+  }
+
+  void _clearEvents() {
+    context.blocProvider<ManageDataBloc>().add(const ClearData());
+    context.blocProvider<AccountBloc>().add(const ClearPartyUserEvent());
+    _back();
+  }
+
+  void _back() {
+    Navigator.pop(context);
+  }
+
+  void _getPartyUsers({required String value}) {
+    if (value.isNotEmpty) {
+      context.blocProvider<AccountBloc>().add(
+            GetPartyUsersEvent(
+              uid: null,
+              nickName: value.firstToUpper,
+              displayName: null,
+            ),
+          );
+    } else {
+      context.blocProvider<AccountBloc>().add(const ClearPartyUserEvent());
+    }
   }
 
   @override
@@ -40,7 +89,7 @@ class _AddUserPageState extends State<AddUserPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => _back(),
                 child: Text(
                   'Voltar',
                   style: context.textTheme.titleMedium,
@@ -50,12 +99,26 @@ class _AddUserPageState extends State<AddUserPage> {
                 'Adicionar Amigo',
                 style: context.textTheme.titleLarge,
               ),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  'Confimar',
-                  style: context.textTheme.titleMedium,
-                ),
+              BlocBuilder<ManageDataBloc, ManageDataState>(
+                builder: (context, state) {
+                  if (state is PushData) {
+                    return TextButton(
+                      onPressed: () => _addPartyUser(
+                          partyUserList: state.dataList as List<String>),
+                      child: Text(
+                        'Confimar',
+                        style: context.textTheme.titleMedium,
+                      ),
+                    );
+                  }
+                  return TextButton(
+                    onPressed: () => {},
+                    child: Text(
+                      'Confimar',
+                      style: context.textTheme.titleMedium,
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -72,102 +135,29 @@ class _AddUserPageState extends State<AddUserPage> {
                 enabledBorderColor: Styles.kDescriptionText,
                 prefixIcon: const Icon(Icons.search),
                 hintText: 'Precure Amigos',
-                onChanged: (value) {
-                  if (value.isNotEmpty) {
-                    context.blocProvider<AccountBloc>().add(
-                          GetPartyUsersEvent(
-                            uid: null,
-                            nickName: value.firstToUpper,
-                            displayName: null,
-                          ),
-                        );
-                  } else {
-                    context
-                        .blocProvider<AccountBloc>()
-                        .add(const ClearPartyUserEvent());
-                  }
-                },
+                onChanged: (value) => _getPartyUsers(value: value),
               ),
             ),
           ),
           const SizedBox(height: 20.0),
-          BlocBuilder<AccountBloc, AccountState>(
-            builder: (context, state) {
-              if (state is GetPartyUsersSuccess) {
-                if (state.partyUserList != null &&
-                    state.partyUserList!.isNotEmpty) {
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: state.partyUserList!.length,
-                      itemBuilder: (context, index) => Row(
-                        children: [
-                          SizedBox(
-                            height: 82,
-                            width: 82,
-                            child: Container(
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    Assets.toAssetPath(
-                                        asset:
-                                            state.partyUserList![index].avatar),
-                                  ),
-                                  fit: BoxFit.cover,
-                                ),
-                                shape: BoxShape.circle,
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 1,
-                                    spreadRadius: 1,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 10.0,
-                                right: 16.0,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    state.partyUserList![index].nickName !=
-                                                null &&
-                                            state.partyUserList![index]
-                                                .nickName!.isNotEmpty
-                                        ? state.partyUserList![index].nickName!
-                                        : '',
-                                    style: context.textTheme.titleLarge,
-                                  ),
-                                  FollowButton(
-                                    uid: state.partyUserList![index].uid,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              } else if (state is AccountError || state is AccountInitial) {
-                return const SizedBox();
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
+          BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) => (state is GetUserSuccess &&
+                    state.userModel.following?.isNotEmpty == true)
+                ? PartyUserListView(
+                    users: state.userModel.following!, following: true)
+                : const SizedBox.shrink(),
+          ),
+          BlocConsumer<AccountBloc, AccountState>(
+            listener: (context, state) => state is AddPartyUserSuccess
+                ? _updateToken(token: state.token)
+                : null,
+            builder: (context, state) => (state is GetPartyUsersSuccess &&
+                    state.partyUserList?.isNotEmpty == true)
+                ? PartyUserListView(users: state.partyUserList!)
+                : state is AccountInitial
+                    ? const SizedBox.shrink()
+                    : const Expanded(
+                        child: Center(child: CircularProgressIndicator())),
           ),
         ],
       ),

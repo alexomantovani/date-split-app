@@ -25,3 +25,21 @@ class GetPartyUsersEvent extends AccountEvent {
 class ClearPartyUserEvent extends AccountEvent {
   const ClearPartyUserEvent();
 }
+
+class SelectPartyUserEvent extends AccountEvent {
+  final String uid;
+
+  const SelectPartyUserEvent({required this.uid});
+
+  @override
+  List<Object?> get props => [uid];
+}
+
+class AddPartyUserEvent extends AccountEvent {
+  final List<String> partyUserList;
+
+  const AddPartyUserEvent({required this.partyUserList});
+
+  @override
+  List<Object?> get props => [partyUserList];
+}

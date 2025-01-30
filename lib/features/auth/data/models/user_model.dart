@@ -1,3 +1,4 @@
+import 'package:date_split_app/core/common/features/account/data/models/party_user_model.dart';
 import 'package:date_split_app/features/auth/domain/entities/user.dart';
 
 class UserModel extends User {
@@ -8,6 +9,7 @@ class UserModel extends User {
     required super.avatar,
     required super.nickName,
     required super.following,
+    required super.parties,
   });
 
   const UserModel.empty()
@@ -18,14 +20,16 @@ class UserModel extends User {
           avatar: null,
           nickName: null,
           following: null,
+          parties: null,
         );
 
   @override
-  List<Object?> get props => [uid, email, displayName, avatar, nickName];
+  List<Object?> get props =>
+      [uid, email, displayName, avatar, nickName, following, parties];
 
   @override
   String toString() {
-    return 'UserModel{uid: $uid, email: $email, displayName: $displayName, avatar: $avatar, nickName: $nickName}';
+    return 'UserModel{uid: $uid, email: $email, displayName: $displayName, avatar: $avatar, nickName: $nickName, following: $following, parties: $parties}';
   }
 
   // Métodos para conversão da camada de dados:
@@ -37,6 +41,7 @@ class UserModel extends User {
       avatar: user.avatar,
       nickName: user.nickName,
       following: user.following,
+      parties: user.parties,
     );
   }
 
@@ -48,6 +53,7 @@ class UserModel extends User {
       avatar: avatar,
       nickName: nickName,
       following: following,
+      parties: parties,
     );
   }
 
@@ -59,7 +65,12 @@ class UserModel extends User {
       displayName: json['displayName'] as String,
       avatar: json['avatar'],
       nickName: json['nickName'],
-      following: json['following'],
+      following: json['following'] != null
+          ? (json['following'] as List<dynamic>)
+              .map((e) => PartyUserModel.fromJson(e))
+              .toList()
+          : null,
+      parties: json['parties'],
     );
   }
 
@@ -71,6 +82,7 @@ class UserModel extends User {
       'avatar': avatar,
       'nickName': nickName,
       'following': following,
+      'parties': parties,
     };
   }
 }

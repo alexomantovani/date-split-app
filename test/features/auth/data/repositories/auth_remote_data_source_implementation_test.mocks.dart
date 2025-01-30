@@ -91,13 +91,11 @@ class MockAuthRemoteDataSource extends _i1.Mock
 
   @override
   _i4.Future<String> updateUser({
-    required String? token,
     required String? avatar,
     required String? nickName,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateUser, [], {
-              #token: token,
               #avatar: avatar,
               #nickName: nickName,
             }),
@@ -105,7 +103,6 @@ class MockAuthRemoteDataSource extends _i1.Mock
               _i5.dummyValue<String>(
                 this,
                 Invocation.method(#updateUser, [], {
-                  #token: token,
                   #avatar: avatar,
                   #nickName: nickName,
                 }),

@@ -13,6 +13,8 @@ abstract class AccountRemoteDataSource {
     required String? nickName,
     required String? displayName,
   });
+
+  Future<String> addPartyUsers({required List<String> partyUserList});
 }
 
 class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
@@ -30,7 +32,7 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
     required String? nickName,
     required String? displayName,
   }) async {
-    final url = Uri.parse('$baseUrl/users/users?nickName=$nickName');
+    final url = Uri.parse('$baseUrl/users/getUsers?nickName=$nickName');
 
     final response = await client.get(
       url,
@@ -46,6 +48,33 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
       final errorData = jsonDecode(response.body);
       throw ServerException(
         message: errorData['message'] ?? 'Erro ao registrar usuário.',
+        statusCode: response.statusCode,
+      );
+    }
+  }
+
+  @override
+  Future<String> addPartyUsers({
+    required List<String> partyUserList,
+  }) async {
+    final url = Uri.parse('$baseUrl/users/addAndOrRemoveUsers');
+
+    final body = jsonEncode({"usersIds": partyUserList});
+
+    final response = await client.post(
+      url,
+      headers: await CoreUtils.tokenHeaders(),
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+
+      return responseData['token'];
+    } else {
+      final errorData = jsonDecode(response.body);
+      throw ServerException(
+        message: errorData['message'] ?? 'Erro ao adicionar amigo.',
         statusCode: response.statusCode,
       );
     }

@@ -64,7 +64,6 @@ class _ConfigurationBottomSheetState extends State<ConfigurationBottomSheet> {
                         onPressed: () {
                           context.blocProvider<AuthBloc>().add(
                                 UpdateUserEvent(
-                                  token: null,
                                   avatar:
                                       Assets.pathToAsset(path: state.avatar),
                                   nickName: nickNameController.text,

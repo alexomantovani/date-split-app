@@ -155,7 +155,6 @@ void main() {
     );
   });
   group('updateUser', () {
-    const token = 'token';
     const avatar = 'avatar';
     const nickName = 'nickName';
     const newToken = 'newToken';
@@ -166,7 +165,6 @@ void main() {
         when(
           updateUser.call(
             const UpdateUserParams(
-              token: token,
               avatar: avatar,
               nickName: nickName,
             ),
@@ -176,7 +174,6 @@ void main() {
       },
       act: (bloc) => bloc.add(
         const UpdateUserEvent(
-          token: token,
           avatar: avatar,
           nickName: nickName,
         ),
@@ -187,7 +184,6 @@ void main() {
         verify(
           updateUser.call(
             (const UpdateUserParams(
-              token: token,
               avatar: avatar,
               nickName: nickName,
             )),
@@ -202,7 +198,6 @@ void main() {
         when(
           updateUser.call(
             (const UpdateUserParams(
-              token: token,
               avatar: avatar,
               nickName: nickName,
             )),
@@ -218,7 +213,6 @@ void main() {
         return authBloc;
       },
       act: (bloc) => bloc.add(const UpdateUserEvent(
-        token: token,
         avatar: avatar,
         nickName: nickName,
       )),
@@ -227,7 +221,6 @@ void main() {
         verify(
           updateUser.call(
             (const UpdateUserParams(
-              token: token,
               avatar: avatar,
               nickName: nickName,
             )),

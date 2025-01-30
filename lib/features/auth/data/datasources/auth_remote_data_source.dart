@@ -19,7 +19,6 @@ abstract class AuthRemoteDataSource {
   });
 
   Future<String> updateUser({
-    required String? token,
     required String? avatar,
     required String? nickName,
   });
@@ -101,7 +100,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<String> updateUser({
-    required String? token,
     required String? avatar,
     required String? nickName,
   }) async {
@@ -111,8 +109,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       url,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization':
-            'Bearer ${await LocalPreferences.getToken() ?? token!}',
+        'Authorization': 'Bearer ${await LocalPreferences.getToken()}',
       },
       body: body,
     );

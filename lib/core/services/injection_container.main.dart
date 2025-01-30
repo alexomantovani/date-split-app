@@ -36,7 +36,7 @@ Future<void> authInit() async {
               baseUrl: sl(),
             ))
     ..registerLazySingleton(() => http.Client())
-    ..registerLazySingleton(() => Environments.prod);
+    ..registerLazySingleton(() => Environments.dev);
 }
 
 Future<void> avatarInit() async {
@@ -53,9 +53,17 @@ Future<void> accountInit() async {
     ..registerFactory(
       () => AccountBloc(
         getPartyUsers: sl<GetPartyUsers>(),
+        addPartyUsers: sl<AddPartyUsers>(),
       ),
     )
+    ..registerFactory(
+      () => ManageDataBloc(
+        dataList: sl<List<String>>(),
+      ),
+    )
+    ..registerLazySingleton<List<String>>(() => [])
     ..registerLazySingleton(() => GetPartyUsers(sl()))
+    ..registerLazySingleton(() => AddPartyUsers(sl()))
     ..registerLazySingleton<AccountRepository>(
         () => AccountRepositoryImpl(sl()))
     ..registerLazySingleton<AccountRemoteDataSource>(
