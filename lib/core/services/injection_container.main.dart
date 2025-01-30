@@ -36,7 +36,7 @@ Future<void> authInit() async {
               baseUrl: sl(),
             ))
     ..registerLazySingleton(() => http.Client())
-    ..registerLazySingleton(() => Environments.dev);
+    ..registerLazySingleton(() => Environments.prod);
 }
 
 Future<void> avatarInit() async {
